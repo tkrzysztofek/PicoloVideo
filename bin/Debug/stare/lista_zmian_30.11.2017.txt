@@ -1,0 +1,11 @@
+30.11.2017
+Lista wykonanych poprawek:
+
+-Po klikniêciu na "Zlap klatke", od razu mo¿emy pozyskiwaæ zdjêcia "hardwerowo" (nie trzeba ju¿ klikaæ na "Start klatki").
+-Wartoœci suwaków nasycenia, kontrastu i jasnoœci s¹ wyœwietlane równie¿ liczbowo.
+-Zapisywanie do JPG nie powoduje ju¿ nadpisywania plików, tylko dodaje kolejn¹ liczbê do nazwy pliku. 
+
+
+
+
+
