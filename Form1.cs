@@ -10,6 +10,8 @@ namespace PicoloVideo
     {
         string path = Environment.CurrentDirectory + "/" + "druk1.txt";
 
+        // ten komentarz do usuniecia
+
         int od;
 
         public Form1()
