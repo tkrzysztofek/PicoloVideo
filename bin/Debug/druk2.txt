@@ -4,3 +4,5 @@ Wyniki:
 200
 250
 16
+c://zdjecia/
+doc33
