@@ -145,7 +145,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioStream.cs" />
+    <Compile Include="Avi.cs" />
+    <Compile Include="AviManager.cs" />
+    <Compile Include="AviPlayer.cs" />
+    <Compile Include="AviStream.cs" />
     <Compile Include="ClickAttach.cs" />
+    <Compile Include="EditableVideoStream.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +163,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="VideoStream.cs" />
     <Content Include="App.ico" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -166,6 +173,7 @@
       <Link>MainForm.cs</Link>
     </Compile>
     <Compile Include="MultiCam.cs" />
+    <Content Include="AviFile.csproj" />
     <EmbeddedResource Include="..\..\..\..\..\05.09.17\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <Link>MainForm.resx</Link>

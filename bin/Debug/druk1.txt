@@ -1,5 +1,5 @@
 Centrum Medyczne EVITA
-Wydruk z badan:::::
+Wydruk z badan:
 50
 200
 250
