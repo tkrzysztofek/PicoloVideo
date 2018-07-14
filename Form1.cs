@@ -20,10 +20,8 @@ namespace PicoloVideo
             InitializeComponent();            
 
             try
-            {
-                
-                 wczytanieUstawien(pathPlikuUstawien);
-                
+            {                
+                 wczytanieUstawien(pathPlikuUstawien);                
             }
 
             catch
@@ -37,7 +35,6 @@ namespace PicoloVideo
                 textBoxSciezkaPDF.Text = "c://zdjecia/";
                 textBoxNazwaPDF.Text = "dokument";
             }
-
         }
 
         public void wczytanieUstawien(String sciezka)
