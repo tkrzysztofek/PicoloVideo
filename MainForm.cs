@@ -1659,6 +1659,11 @@ namespace PicoloVideo
         // VIDEO ON
         private void buttonVideoStart_Click(object sender, EventArgs e)
         {
+            videoStart();
+        }
+
+        private void videoStart()
+        {
             triggerHardwerowyOn = false;
             KanalVideo();
             ekranGlownyOn = true;
@@ -1667,10 +1672,16 @@ namespace PicoloVideo
         // VIDEO OFF
         private void buttonVideoStop_Click(object sender, EventArgs e)
         {
+            videoStop();
+        }
+
+        private void videoStop()
+        {
             triggerHardwerowyOn = false;
             ekranGlownyOn = false;
             ekranGlowny.Image = null;
         }
+
 
         //  CLICK LEWY / PRAWY        
         private void buttonPicture_Click(object sender, MouseEventArgs e)
@@ -2047,6 +2058,7 @@ namespace PicoloVideo
 
         private void buttonNagrywaj_Click(object sender, EventArgs e)
         {
+            videoStart();
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
@@ -2140,6 +2152,7 @@ namespace PicoloVideo
             writer.Close();            
             odblokujPrzyciski();
             buttonNagrywaj.BackColor = Color.White;
+            videoStop();
         }              
                 
 
