@@ -25,7 +25,6 @@ E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\Picol
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\PicoloVideo.exe
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\PicoloVideo.pdb
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\AForge.Imaging.dll
-E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\AForge.Video.FFMPEG.dll
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\itextsharp.dll
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\itextsharp.pdfa.dll
 E:\moje\picolo\win\multicam-sample-programs\MsCs\PicoloVideo\bin\x86\Debug\itextsharp.xtra.dll

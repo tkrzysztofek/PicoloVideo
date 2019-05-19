@@ -31,8 +31,6 @@ using System.Diagnostics;
 using AviFile;
 
 
-
-
 //using iTextSharp.text;
 //using iTextSharp.text.pdf;
 
@@ -1252,7 +1250,9 @@ namespace PicoloVideo
             {
                 MC.SetParam(MC.BOARD, "BoardTopology", "1_01_2");
             }
-            catch { };
+            catch(Euresys.MultiCamException exc) {
+                MessageBox.Show("Problem topologii \n \n" + exc.Message);
+            };
 
             try
             {
@@ -1273,7 +1273,10 @@ namespace PicoloVideo
                 // Choose the acquisition mode
                 MC.SetParam(channel, "AcquisitionMode", "VIDEO");
             }
-            catch { };
+            catch (Euresys.MultiCamException exc)
+            {
+                MessageBox.Show("Problem nr. e1 \n \n" + exc.Message);
+            };
         }
 
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -1282,60 +1285,60 @@ namespace PicoloVideo
 
             try
             {
-                //start_kanal();
-                ////// Open MultiCam driver
-                ////MC.OpenDriver();
+                start_kanal();
+                //// Open MultiCam driver
+                //MC.OpenDriver();
 
-                ////// Enable error logging
-                ////MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
+                //// Enable error logging
+                //MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
 
-                ////// Create a channel and associate it with the first connector on the first board
-                ////MC.Create("CHANNEL", out channel);
+                //// Create a channel and associate it with the first connector on the first board
+                //MC.Create("CHANNEL", out channel);
 
-                ////MC.SetParam(channel, "DriverIndex", 0);
-                ////if (radioButtonV1.Checked)
-                ////    MC.SetParam(channel, "Connector", "VID1");
-                ////else if (radioButtonV2.Checked)
-                ////    MC.SetParam(channel, "Connector", "VID2");
-                ////else
-                ////    MC.SetParam(channel, "Connector", "VID3");
+                //MC.SetParam(channel, "DriverIndex", 0);
+                //if (radioButtonV1.Checked)
+                //    MC.SetParam(channel, "Connector", "VID1");
+                //else if (radioButtonV2.Checked)
+                //    MC.SetParam(channel, "Connector", "VID2");
+                //else
+                //    MC.SetParam(channel, "Connector", "VID3");
 
 
-                ////// Choose the video standard
-                ////MC.SetParam(channel, "CamFile", "PAL");
-                ////// Choose the pixel color format
-                ////MC.SetParam(channel, "ColorFormat", "RGB24");
+                //// Choose the video standard
+                //MC.SetParam(channel, "CamFile", "PAL");
+                //// Choose the pixel color format
+                //MC.SetParam(channel, "ColorFormat", "RGB24");
 
-                //// Choose the acquisition mode
-                //MC.SetParam(channel, "AcquisitionMode", "VIDEO");
+                // Choose the acquisition mode
+                MC.SetParam(channel, "AcquisitionMode", "VIDEO");
 
-                //MC.SetParam(channel, "TrigMode", "COMBINED");
-                //// Choose the triggering mode for subsequent acquisitions
-                //MC.SetParam(channel, "NextTrigMode", "REPEAT");
-                //// Choose the number of images to acquire
-                //MC.SetParam(channel, "SeqLength_Fr", 1);
-                //MC.SetParam(channel, "TrigLineIndex", 1);
-                //MC.SetParam(channel, "TrigEdge", "GOLOW");
+                MC.SetParam(channel, "TrigMode", "COMBINED");
+                // Choose the triggering mode for subsequent acquisitions
+                MC.SetParam(channel, "NextTrigMode", "REPEAT");
+                // Choose the number of images to acquire
+                MC.SetParam(channel, "SeqLength_Fr", 1);
+                MC.SetParam(channel, "TrigLineIndex", 1);
+                MC.SetParam(channel, "TrigEdge", "GOLOW");
 
-                //// Register the callback function
-                //multiCamCallback = new MC.CALLBACK(MultiCamCallback);
-                //MC.RegisterCallback(channel, multiCamCallback, channel);
+                // Register the callback function
+                multiCamCallback = new MC.CALLBACK(MultiCamCallback);
+                MC.RegisterCallback(channel, multiCamCallback, channel);
 
-                //// Enable the signals corresponding to the callback functions
-                //MC.SetParam(channel, MC.SignalEnable + MC.SIG_SURFACE_PROCESSING, "ON");
-                //MC.SetParam(channel, MC.SignalEnable + MC.SIG_ACQUISITION_FAILURE, "ON");
-                //MC.SetParam(channel, MC.SignalEnable + MC.SIG_END_CHANNEL_ACTIVITY, "ON");
-                //MC.SetParam(channel, "BufferPitch", 4096);
-                //////channelactive = false;
+                // Enable the signals corresponding to the callback functions
+                MC.SetParam(channel, MC.SignalEnable + MC.SIG_SURFACE_PROCESSING, "ON");
+                MC.SetParam(channel, MC.SignalEnable + MC.SIG_ACQUISITION_FAILURE, "ON");
+                MC.SetParam(channel, MC.SignalEnable + MC.SIG_END_CHANNEL_ACTIVITY, "ON");
+                MC.SetParam(channel, "BufferPitch", 4096);
+                ////channelactive = false;
 
-                //MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
-                //Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
-                //channelactive = true;                         //                
-                //Refresh();//
+                MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
+                Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
+                channelactive = true;                         //                
+                Refresh();//
 
-                // Prepare the channel in order to minimize the acquisition sequence startup latency
-                //MC.SetParam(channel, "ChannelState", "READY");
-                // MC.SetParam(channel, "ChannelState", "ACTIVE");
+                //Prepare the channel in order to minimize the acquisition sequence startup latency
+                MC.SetParam(channel, "ChannelState", "READY");
+                MC.SetParam(channel, "ChannelState", "ACTIVE");
 
             }
             catch (Euresys.MultiCamException exc)
@@ -1371,7 +1374,10 @@ namespace PicoloVideo
                             if (n > 16) n = 0;
                         }
                     }
-                    catch { }
+                    catch (Euresys.MultiCamException exc)
+                    {
+                        MessageBox.Show("Problem nr. e2 \n \n" + exc.Message);
+                    };
                     break;
                 default:
                     throw new Euresys.MultiCamException("Unknown signal");
@@ -1603,7 +1609,10 @@ namespace PicoloVideo
                 triggerHardwerowyOn = true;
 
             }
-            catch { }
+            catch (System.NullReferenceException exc)
+            {
+                MessageBox.Show("Problem nr. e3 \n \n" + exc.Message);
+            }
 
             for (int i = 0; i < 3; i++)
             {
@@ -1611,8 +1620,10 @@ namespace PicoloVideo
                 {
                     ekranGlowny.Image = new Bitmap(image);
                 }
-                catch
-                { }
+                catch (System.NullReferenceException exc)
+                {
+                    MessageBox.Show("Problem nr. e4 \n \n" + exc.Message);
+                }
             }
         }
 
