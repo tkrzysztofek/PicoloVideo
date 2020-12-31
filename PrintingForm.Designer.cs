@@ -1,6 +1,6 @@
 ﻿namespace PicoloVideo
 {
-    partial class Form1
+    partial class PrintingWindowForm
     {
         /// <summary>
         /// Required designer variable.
@@ -345,7 +345,7 @@
             this.textBoxNazwaPDF.TabIndex = 46;
             this.textBoxNazwaPDF.Text = "dokument";
             // 
-            // Form1
+            // PrintingWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -381,7 +381,7 @@
             this.Controls.Add(this.pic21);
             this.Controls.Add(this.buttonDrukuj);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "Form1";
+            this.Name = "PrintingWindowForm";
             this.Text = "Drukowanie";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pic23)).EndInit();

@@ -9,13 +9,13 @@ using System.Drawing.Imaging;
 
 namespace PicoloVideo
 {
-    public partial class Form1 : Form
+    public partial class PrintingWindowForm : Form
     {
         string pathPlikuUstawien = Environment.CurrentDirectory + "/" + "druk1.txt";
                
         int odstepMiedzyObrazkami;
 
-        public Form1()
+        public PrintingWindowForm()
         {
             InitializeComponent();            
 

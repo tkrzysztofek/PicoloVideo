@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using AForge.Imaging.Filters;
 using AForge.Video.FFMPEG;
 using System.Diagnostics;
+using System.Text;
 using AviFile;
 
 
@@ -38,7 +39,7 @@ using AviFile;
 namespace PicoloVideo
 {
     /// <summary>
-    /// Summary description for Form1.
+    /// Summary description for PrintingWindowForm.
     /// </summary>
     /// 
 
@@ -50,26 +51,26 @@ namespace PicoloVideo
         VideoFileWriter writer = new VideoFileWriter();
         
         bool triggerHardwerowyOn = false;
-        bool triggerPierwszyKilk = false;
+        bool triggerFirstClick = false;
         //bool nagrywanieON = false;
 
         List<Image> selectedImages = new List<Image>();
         List<Bitmap> listaZdjeciaVideo = new List<Bitmap>();
 
-        Bitmap tempBitmap;
+        Bitmap tempAcquiredBitmap;
 
-        string path = Environment.CurrentDirectory + "/" + "config.txt";
+        string configFilePath = Environment.CurrentDirectory + "/" + "config.txt";
 
-        int bcorr = 0;
-        int ccorr = 0;
-        float scorr = 0;
+        int BrightnessValue = 0;
+        int contrastValue = 0;
+        float saturationValue = 0;
 
-        PictureBox[] picbox = new PictureBox[17];
-        TextBox[] seletedImgMarker = new TextBox[17];
+        PictureBox[] imgBoxesList = new PictureBox[23];
+        TextBox[] seletedImgMarkerList = new TextBox[23];
         Image[] imagesToPrint = new Image[9];
 
-        int n = 0;
-        int seletedImgNumber = 0;
+        int actualImgNumber = 0;
+        //int selectedImgNumber = 0;
         bool ekranGlownyOn = false;
         //private static Timer aTimer;
 
@@ -78,7 +79,7 @@ namespace PicoloVideo
         public delegate void UpdateStatusBarDelegate(String text);
 
         // The object that will contain the acquired image
-        private Bitmap image = null;
+        private Bitmap acquiredBitmap = null;
 
         // The Mutex object that will protect image objects during processing
         private static Mutex imageMutex = new Mutex();
@@ -95,7 +96,7 @@ namespace PicoloVideo
         MC.CALLBACK multiCamCallback;
 
         private System.Windows.Forms.MainMenu mainMenu;
-        private PictureBox ekranGlowny;
+        private PictureBox mainScreen;
         private Button buttonVideoStart;
         private Button buttonVideoStop;
         private PictureBox picture1;
@@ -147,7 +148,7 @@ namespace PicoloVideo
         private TextBox tbox16;
         private TextBox tbox11;
         private TextBox tbox17;
-        private TextBox textBox1;
+        private TextBox selectedImgNumbersTextBox;
         private Button buttonClipboard;
         private Label label5;
         private TrackBar TrackbarKontrast;
@@ -171,6 +172,18 @@ namespace PicoloVideo
         private Button buttonStopNagrywanie;
         private Label label8;
         private TextBox textBoxNazwaPlikuAvi;
+        private TextBox tbox23;
+        private TextBox tbox22;
+        private TextBox tbox21;
+        private TextBox tbox20;
+        private TextBox tbox19;
+        private TextBox tbox18;
+        private PictureBox picture19;
+        private PictureBox picture18;
+        private PictureBox picture21;
+        private PictureBox picture20;
+        private PictureBox picture23;
+        private PictureBox picture22;
         private System.ComponentModel.IContainer components;
 
         public MainForm()
@@ -179,12 +192,15 @@ namespace PicoloVideo
             // Required for Windows Form Designer support
             //
             InitializeComponent();
+            loadConfigurationFromFile();
+            prepereImageBoxes();
+        }
 
-            //StreamReader reader = new StreamReader("config.txt");
-
+        private void loadConfigurationFromFile()
+        {
             try
             {
-                using (StreamReader sr = new StreamReader(path))
+                using (StreamReader sr = new StreamReader(configFilePath))
                 {
                     TrackbarJasnosc.Value = int.Parse(sr.ReadLine());
                     TrackbarKontrast.Value = int.Parse(sr.ReadLine());
@@ -196,6 +212,7 @@ namespace PicoloVideo
             }
             catch
             {
+                MessageBox.Show("Nie wykryto pliku config.txt");
                 TrackbarJasnosc.Value = 0;
                 TrackbarKontrast.Value = 0;
                 TrackbarNasycenie.Value = 0;
@@ -204,57 +221,70 @@ namespace PicoloVideo
                 textBoxNazwaPlikuAvi.Text = "video";
             }
 
-            //scorr = (float)TrackbarNasycenie.Value / 100;
-            //ccorr = TrackbarKontrast.Value;
-            //bcorr = TrackbarJasnosc.Value;
-
-            scorr = (float)TrackbarNasycenie.Value / 100;
+            saturationValue = (float)TrackbarNasycenie.Value / 100;
             textBoxNasycenieNumber.Text = TrackbarNasycenie.Value.ToString();
 
-            ccorr = TrackbarKontrast.Value;
-            textBoxKontrastNumber.Text = ccorr.ToString();
+            contrastValue = TrackbarKontrast.Value;
+            textBoxKontrastNumber.Text = contrastValue.ToString();
 
-            bcorr = TrackbarJasnosc.Value;
-            textBoxJasnoscNumber.Text = bcorr.ToString();
+            BrightnessValue = TrackbarJasnosc.Value;
+            textBoxJasnoscNumber.Text = BrightnessValue.ToString();
+        }
 
-            picbox[0] = picture1;
-            picbox[1] = picture2;
-            picbox[2] = picture3;
-            picbox[3] = picture4;
-            picbox[4] = picture5;
-            picbox[5] = picture6;
-            picbox[6] = picture7;
-            picbox[7] = picture8;
-            picbox[8] = picture9;
-            picbox[9] = picture10;
-            picbox[10] = picture11;
-            picbox[11] = picture12;
-            picbox[12] = picture13;
-            picbox[13] = picture14;
-            picbox[14] = picture15;
-            picbox[15] = picture16;
-            picbox[16] = picture17;
+        private void prepereImageBoxes()
+        {
+            imgBoxesList[0] = picture1;
+            imgBoxesList[1] = picture2;
+            imgBoxesList[2] = picture3;
+            imgBoxesList[3] = picture4;
+            imgBoxesList[4] = picture5;
+            imgBoxesList[5] = picture6;
+            imgBoxesList[6] = picture7;
+            imgBoxesList[7] = picture8;
+            imgBoxesList[8] = picture9;
+            imgBoxesList[9] = picture10;
+            imgBoxesList[10] = picture11;
+            imgBoxesList[11] = picture12;
+            imgBoxesList[12] = picture13;
+            imgBoxesList[13] = picture14;
+            imgBoxesList[14] = picture15;
+            imgBoxesList[15] = picture16;
+            imgBoxesList[16] = picture17;
+            imgBoxesList[17] = picture18;
+            imgBoxesList[18] = picture19;
+            imgBoxesList[19] = picture20;
+            imgBoxesList[20] = picture21;
+            imgBoxesList[21] = picture22;
+            imgBoxesList[22] = picture23;
 
-            seletedImgMarker[0] = tbox1;
-            seletedImgMarker[1] = tbox2;
-            seletedImgMarker[2] = tbox3;
-            seletedImgMarker[3] = tbox4;
-            seletedImgMarker[4] = tbox5;
-            seletedImgMarker[5] = tbox6;
-            seletedImgMarker[6] = tbox7;
-            seletedImgMarker[7] = tbox8;
-            seletedImgMarker[8] = tbox9;
-            seletedImgMarker[9] = tbox10;
-            seletedImgMarker[10] = tbox11;
-            seletedImgMarker[11] = tbox12;
-            seletedImgMarker[12] = tbox13;
-            seletedImgMarker[13] = tbox14;
-            seletedImgMarker[14] = tbox15;
-            seletedImgMarker[15] = tbox16;
-            seletedImgMarker[16] = tbox17;
+            seletedImgMarkerList[0] = tbox1;
+            seletedImgMarkerList[1] = tbox2;
+            seletedImgMarkerList[2] = tbox3;
+            seletedImgMarkerList[3] = tbox4;
+            seletedImgMarkerList[4] = tbox5;
+            seletedImgMarkerList[5] = tbox6;
+            seletedImgMarkerList[6] = tbox7;
+            seletedImgMarkerList[7] = tbox8;
+            seletedImgMarkerList[8] = tbox9;
+            seletedImgMarkerList[9] = tbox10;
+            seletedImgMarkerList[10] = tbox11;
+            seletedImgMarkerList[11] = tbox12;
+            seletedImgMarkerList[12] = tbox13;
+            seletedImgMarkerList[13] = tbox14;
+            seletedImgMarkerList[14] = tbox15;
+            seletedImgMarkerList[15] = tbox16;
+            seletedImgMarkerList[16] = tbox17;
+            seletedImgMarkerList[17] = tbox18;
+            seletedImgMarkerList[18] = tbox19;
+            seletedImgMarkerList[19] = tbox20;
+            seletedImgMarkerList[20] = tbox21;
+            seletedImgMarkerList[21] = tbox22;
+            seletedImgMarkerList[22] = tbox23;
 
-            for (int i = 0; i < 17; i++)
-                seletedImgMarker[i].Visible = false;
+            for (int i = 0; i < seletedImgMarkerList.Length; i++)
+            {
+                seletedImgMarkerList[i].Visible = false;
+            }
         }
 
         /// <summary>
@@ -281,7 +311,7 @@ namespace PicoloVideo
         {
             this.components = new System.ComponentModel.Container();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
-            this.ekranGlowny = new System.Windows.Forms.PictureBox();
+            this.mainScreen = new System.Windows.Forms.PictureBox();
             this.buttonVideoStart = new System.Windows.Forms.Button();
             this.buttonVideoStop = new System.Windows.Forms.Button();
             this.picture1 = new System.Windows.Forms.PictureBox();
@@ -332,7 +362,7 @@ namespace PicoloVideo
             this.tbox16 = new System.Windows.Forms.TextBox();
             this.tbox11 = new System.Windows.Forms.TextBox();
             this.tbox17 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.selectedImgNumbersTextBox = new System.Windows.Forms.TextBox();
             this.buttonClipboard = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.TrackbarKontrast = new System.Windows.Forms.TrackBar();
@@ -356,7 +386,19 @@ namespace PicoloVideo
             this.buttonStopNagrywanie = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.textBoxNazwaPlikuAvi = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.ekranGlowny)).BeginInit();
+            this.tbox23 = new System.Windows.Forms.TextBox();
+            this.tbox22 = new System.Windows.Forms.TextBox();
+            this.tbox21 = new System.Windows.Forms.TextBox();
+            this.tbox20 = new System.Windows.Forms.TextBox();
+            this.tbox19 = new System.Windows.Forms.TextBox();
+            this.tbox18 = new System.Windows.Forms.TextBox();
+            this.picture19 = new System.Windows.Forms.PictureBox();
+            this.picture18 = new System.Windows.Forms.PictureBox();
+            this.picture21 = new System.Windows.Forms.PictureBox();
+            this.picture20 = new System.Windows.Forms.PictureBox();
+            this.picture23 = new System.Windows.Forms.PictureBox();
+            this.picture22 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).BeginInit();
@@ -378,17 +420,23 @@ namespace PicoloVideo
             ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture23)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture22)).BeginInit();
             this.SuspendLayout();
             // 
-            // ekranGlowny
+            // mainScreen
             // 
-            this.ekranGlowny.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ekranGlowny.Location = new System.Drawing.Point(155, 1);
-            this.ekranGlowny.Margin = new System.Windows.Forms.Padding(0);
-            this.ekranGlowny.Name = "ekranGlowny";
-            this.ekranGlowny.Size = new System.Drawing.Size(765, 580);
-            this.ekranGlowny.TabIndex = 1;
-            this.ekranGlowny.TabStop = false;
+            this.mainScreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mainScreen.Location = new System.Drawing.Point(155, 1);
+            this.mainScreen.Margin = new System.Windows.Forms.Padding(0);
+            this.mainScreen.Name = "mainScreen";
+            this.mainScreen.Size = new System.Drawing.Size(765, 579);
+            this.mainScreen.TabIndex = 1;
+            this.mainScreen.TabStop = false;
             // 
             // buttonVideoStart
             // 
@@ -420,7 +468,7 @@ namespace PicoloVideo
             this.picture1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture1.TabIndex = 4;
             this.picture1.TabStop = false;
-            this.picture1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture2
             // 
@@ -432,7 +480,7 @@ namespace PicoloVideo
             this.picture2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture2.TabIndex = 6;
             this.picture2.TabStop = false;
-            this.picture2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture3
             // 
@@ -444,7 +492,7 @@ namespace PicoloVideo
             this.picture3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture3.TabIndex = 8;
             this.picture3.TabStop = false;
-            this.picture3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture4
             // 
@@ -456,7 +504,7 @@ namespace PicoloVideo
             this.picture4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture4.TabIndex = 10;
             this.picture4.TabStop = false;
-            this.picture4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture5
             // 
@@ -468,7 +516,7 @@ namespace PicoloVideo
             this.picture5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture5.TabIndex = 12;
             this.picture5.TabStop = false;
-            this.picture5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture11
             // 
@@ -480,7 +528,7 @@ namespace PicoloVideo
             this.picture11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture11.TabIndex = 15;
             this.picture11.TabStop = false;
-            this.picture11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture10
             // 
@@ -492,7 +540,7 @@ namespace PicoloVideo
             this.picture10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture10.TabIndex = 14;
             this.picture10.TabStop = false;
-            this.picture10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture9
             // 
@@ -504,7 +552,7 @@ namespace PicoloVideo
             this.picture9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture9.TabIndex = 17;
             this.picture9.TabStop = false;
-            this.picture9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture8
             // 
@@ -516,7 +564,7 @@ namespace PicoloVideo
             this.picture8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture8.TabIndex = 16;
             this.picture8.TabStop = false;
-            this.picture8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture7
             // 
@@ -528,7 +576,7 @@ namespace PicoloVideo
             this.picture7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture7.TabIndex = 19;
             this.picture7.TabStop = false;
-            this.picture7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture6
             // 
@@ -540,7 +588,7 @@ namespace PicoloVideo
             this.picture6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture6.TabIndex = 18;
             this.picture6.TabStop = false;
-            this.picture6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture13
             // 
@@ -553,7 +601,7 @@ namespace PicoloVideo
             this.picture13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture13.TabIndex = 25;
             this.picture13.TabStop = false;
-            this.picture13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture12
             // 
@@ -565,7 +613,7 @@ namespace PicoloVideo
             this.picture12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture12.TabIndex = 24;
             this.picture12.TabStop = false;
-            this.picture12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture15
             // 
@@ -577,7 +625,7 @@ namespace PicoloVideo
             this.picture15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture15.TabIndex = 23;
             this.picture15.TabStop = false;
-            this.picture15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture14
             // 
@@ -589,7 +637,7 @@ namespace PicoloVideo
             this.picture14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture14.TabIndex = 22;
             this.picture14.TabStop = false;
-            this.picture14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture17
             // 
@@ -601,7 +649,7 @@ namespace PicoloVideo
             this.picture17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture17.TabIndex = 21;
             this.picture17.TabStop = false;
-            this.picture17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // picture16
             // 
@@ -613,7 +661,7 @@ namespace PicoloVideo
             this.picture16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picture16.TabIndex = 20;
             this.picture16.TabStop = false;
-            this.picture16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPicture_Click);
+            this.picture16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
             // 
             // buttonZlapKlatke
             // 
@@ -662,7 +710,7 @@ namespace PicoloVideo
             this.TrackbarJasnosc.SmallChange = 5;
             this.TrackbarJasnosc.TabIndex = 32;
             this.TrackbarJasnosc.TickFrequency = 10;
-            this.TrackbarJasnosc.Scroll += new System.EventHandler(this.TrackBar_Scroll_1);
+            this.TrackbarJasnosc.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // label1
             // 
@@ -677,7 +725,7 @@ namespace PicoloVideo
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(1039, 809);
+            this.label2.Location = new System.Drawing.Point(1034, 930);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 16);
             this.label2.TabIndex = 34;
@@ -730,7 +778,7 @@ namespace PicoloVideo
             // buttonDrukowanie
             // 
             this.buttonDrukowanie.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonDrukowanie.Location = new System.Drawing.Point(971, 744);
+            this.buttonDrukowanie.Location = new System.Drawing.Point(971, 872);
             this.buttonDrukowanie.Name = "buttonDrukowanie";
             this.buttonDrukowanie.Size = new System.Drawing.Size(153, 56);
             this.buttonDrukowanie.TabIndex = 40;
@@ -875,13 +923,13 @@ namespace PicoloVideo
             this.tbox17.TabIndex = 57;
             this.tbox17.Visible = false;
             // 
-            // textBox1
+            // selectedImgNumbersTextBox
             // 
-            this.textBox1.ForeColor = System.Drawing.Color.Red;
-            this.textBox1.Location = new System.Drawing.Point(1101, 713);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(23, 20);
-            this.textBox1.TabIndex = 58;
+            this.selectedImgNumbersTextBox.ForeColor = System.Drawing.Color.Red;
+            this.selectedImgNumbersTextBox.Location = new System.Drawing.Point(1101, 713);
+            this.selectedImgNumbersTextBox.Name = "selectedImgNumbersTextBox";
+            this.selectedImgNumbersTextBox.Size = new System.Drawing.Size(23, 20);
+            this.selectedImgNumbersTextBox.TabIndex = 58;
             // 
             // buttonClipboard
             // 
@@ -913,7 +961,7 @@ namespace PicoloVideo
             this.TrackbarKontrast.SmallChange = 5;
             this.TrackbarKontrast.TabIndex = 60;
             this.TrackbarKontrast.TickFrequency = 10;
-            this.TrackbarKontrast.Scroll += new System.EventHandler(this.TrackBar_Scroll_1);
+            this.TrackbarKontrast.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // buttonZapiszUstawienia
             // 
@@ -942,7 +990,7 @@ namespace PicoloVideo
             this.TrackbarNasycenie.Name = "TrackbarNasycenie";
             this.TrackbarNasycenie.Size = new System.Drawing.Size(192, 45);
             this.TrackbarNasycenie.TabIndex = 63;
-            this.TrackbarNasycenie.Scroll += new System.EventHandler(this.TrackBar_Scroll_1);
+            this.TrackbarNasycenie.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // ZapiszBmpBtn
             // 
@@ -1091,10 +1139,137 @@ namespace PicoloVideo
             this.textBoxNazwaPlikuAvi.Size = new System.Drawing.Size(69, 20);
             this.textBoxNazwaPlikuAvi.TabIndex = 79;
             // 
+            // tbox23
+            // 
+            this.tbox23.Location = new System.Drawing.Point(900, 813);
+            this.tbox23.Name = "tbox23";
+            this.tbox23.Size = new System.Drawing.Size(20, 20);
+            this.tbox23.TabIndex = 92;
+            this.tbox23.Visible = false;
+            // 
+            // tbox22
+            // 
+            this.tbox22.Location = new System.Drawing.Point(747, 813);
+            this.tbox22.Name = "tbox22";
+            this.tbox22.Size = new System.Drawing.Size(20, 20);
+            this.tbox22.TabIndex = 91;
+            this.tbox22.Visible = false;
+            // 
+            // tbox21
+            // 
+            this.tbox21.Location = new System.Drawing.Point(594, 813);
+            this.tbox21.Name = "tbox21";
+            this.tbox21.Size = new System.Drawing.Size(20, 20);
+            this.tbox21.TabIndex = 90;
+            this.tbox21.Visible = false;
+            // 
+            // tbox20
+            // 
+            this.tbox20.Location = new System.Drawing.Point(441, 813);
+            this.tbox20.Name = "tbox20";
+            this.tbox20.Size = new System.Drawing.Size(20, 20);
+            this.tbox20.TabIndex = 89;
+            this.tbox20.Visible = false;
+            // 
+            // tbox19
+            // 
+            this.tbox19.Location = new System.Drawing.Point(288, 813);
+            this.tbox19.Name = "tbox19";
+            this.tbox19.Size = new System.Drawing.Size(20, 20);
+            this.tbox19.TabIndex = 88;
+            this.tbox19.Visible = false;
+            // 
+            // tbox18
+            // 
+            this.tbox18.Location = new System.Drawing.Point(135, 813);
+            this.tbox18.Name = "tbox18";
+            this.tbox18.Size = new System.Drawing.Size(20, 20);
+            this.tbox18.TabIndex = 87;
+            this.tbox18.Visible = false;
+            // 
+            // picture19
+            // 
+            this.picture19.BackColor = System.Drawing.SystemColors.Control;
+            this.picture19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture19.Location = new System.Drawing.Point(155, 813);
+            this.picture19.Margin = new System.Windows.Forms.Padding(0);
+            this.picture19.Name = "picture19";
+            this.picture19.Size = new System.Drawing.Size(153, 115);
+            this.picture19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture19.TabIndex = 86;
+            this.picture19.TabStop = false;
+            this.picture19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
+            // picture18
+            // 
+            this.picture18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture18.Location = new System.Drawing.Point(2, 813);
+            this.picture18.Margin = new System.Windows.Forms.Padding(0);
+            this.picture18.Name = "picture18";
+            this.picture18.Size = new System.Drawing.Size(153, 115);
+            this.picture18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture18.TabIndex = 85;
+            this.picture18.TabStop = false;
+            this.picture18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
+            // picture21
+            // 
+            this.picture21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture21.Location = new System.Drawing.Point(461, 813);
+            this.picture21.Margin = new System.Windows.Forms.Padding(0);
+            this.picture21.Name = "picture21";
+            this.picture21.Size = new System.Drawing.Size(153, 115);
+            this.picture21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture21.TabIndex = 84;
+            this.picture21.TabStop = false;
+            this.picture21.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
+            // picture20
+            // 
+            this.picture20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture20.Location = new System.Drawing.Point(308, 813);
+            this.picture20.Margin = new System.Windows.Forms.Padding(0);
+            this.picture20.Name = "picture20";
+            this.picture20.Size = new System.Drawing.Size(153, 115);
+            this.picture20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture20.TabIndex = 83;
+            this.picture20.TabStop = false;
+            this.picture20.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
+            // picture23
+            // 
+            this.picture23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture23.Location = new System.Drawing.Point(767, 813);
+            this.picture23.Margin = new System.Windows.Forms.Padding(0);
+            this.picture23.Name = "picture23";
+            this.picture23.Size = new System.Drawing.Size(153, 115);
+            this.picture23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture23.TabIndex = 82;
+            this.picture23.TabStop = false;
+            this.picture23.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
+            // picture22
+            // 
+            this.picture22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picture22.Location = new System.Drawing.Point(614, 813);
+            this.picture22.Margin = new System.Windows.Forms.Padding(0);
+            this.picture22.Name = "picture22";
+            this.picture22.Size = new System.Drawing.Size(153, 115);
+            this.picture22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture22.TabIndex = 81;
+            this.picture22.TabStop = false;
+            this.picture22.MouseDown += new System.Windows.Forms.MouseEventHandler(this.image_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(1137, 971);
+            this.Controls.Add(this.tbox18);
+            this.Controls.Add(this.tbox19);
+            this.Controls.Add(this.tbox23);
+            this.Controls.Add(this.tbox22);
+            this.Controls.Add(this.tbox21);
+            this.Controls.Add(this.tbox20);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBoxNazwaPlikuAvi);
             this.Controls.Add(this.buttonStopNagrywanie);
@@ -1116,7 +1291,7 @@ namespace PicoloVideo
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TrackbarKontrast);
             this.Controls.Add(this.buttonClipboard);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.selectedImgNumbersTextBox);
             this.Controls.Add(this.tbox17);
             this.Controls.Add(this.tbox11);
             this.Controls.Add(this.tbox16);
@@ -1165,7 +1340,13 @@ namespace PicoloVideo
             this.Controls.Add(this.picture1);
             this.Controls.Add(this.buttonVideoStop);
             this.Controls.Add(this.buttonVideoStart);
-            this.Controls.Add(this.ekranGlowny);
+            this.Controls.Add(this.mainScreen);
+            this.Controls.Add(this.picture23);
+            this.Controls.Add(this.picture22);
+            this.Controls.Add(this.picture21);
+            this.Controls.Add(this.picture20);
+            this.Controls.Add(this.picture19);
+            this.Controls.Add(this.picture18);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Menu = this.mainMenu;
             this.Name = "MainForm";
@@ -1174,7 +1355,7 @@ namespace PicoloVideo
             this.Closed += new System.EventHandler(this.MainForm_Closed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.ekranGlowny)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture3)).EndInit();
@@ -1196,6 +1377,12 @@ namespace PicoloVideo
             ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture22)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1351,10 +1538,10 @@ namespace PicoloVideo
                     {
                         if (triggerHardwerowyOn)
                         {
-                            triggerPierwszyKilk = true;
+                            triggerFirstClick = true;
                             MC.SetParam(channel, "ChannelState", "ACTIVE");
-                            n++;
-                            if (n > 16) n = 0;
+                            actualImgNumber++;
+                            if (actualImgNumber > imgBoxesList.Length - 1) actualImgNumber = 0;
                         }
                     }
                     catch (Euresys.MultiCamException exc)
@@ -1389,9 +1576,9 @@ namespace PicoloVideo
                 try
                 {
                     FiltersSequence filter = new FiltersSequence(
-                    new BrightnessCorrection(bcorr),
-                    new ContrastCorrection(ccorr),
-                    new SaturationCorrection(scorr)
+                    new BrightnessCorrection(BrightnessValue),
+                    new ContrastCorrection(contrastValue),
+                    new SaturationCorrection(saturationValue)
                     );
                     // apply the filter                  
 
@@ -1399,8 +1586,8 @@ namespace PicoloVideo
 
                     globalHeightOfImage = height;
                     globalWidthOfImage = width;
-                    tempBitmap = new Bitmap(width, height, bufferPitch, PixelFormat.Format24bppRgb, bufferAddress);
-                    image = filter.Apply(tempBitmap);
+                    tempAcquiredBitmap = new Bitmap(width, height, bufferPitch, PixelFormat.Format24bppRgb, bufferAddress);
+                    acquiredBitmap = filter.Apply(tempAcquiredBitmap);
 
                 }
                 finally
@@ -1449,11 +1636,6 @@ namespace PicoloVideo
             // - PicoloVideo Sample Program
         }
 
-        private void UpdateStatusBar(String text)
-        {
-            //statusBarPanel1.Text = text;
-        }
-
         void Redraw(Graphics g)
         {
             // + PicoloVideo Sample Program
@@ -1461,14 +1643,11 @@ namespace PicoloVideo
             {
                 imageMutex.WaitOne();
 
-                if (image != null && triggerHardwerowyOn && triggerPierwszyKilk)
-                    picbox[n].Image = new Bitmap(image);
+                if (acquiredBitmap != null && triggerHardwerowyOn && triggerFirstClick)
+                    imgBoxesList[actualImgNumber].Image = new Bitmap(acquiredBitmap);
 
-                if (image != null && ekranGlownyOn)
-                    ekranGlowny.Image = image; // wyswietla video na glownym ekranie
-                                               // g.DrawImage(image, 0, 0); 
-                                               //UpdateStatusBar(statusBar.Text);
-                
+                if (acquiredBitmap != null && ekranGlownyOn)
+                    mainScreen.Image = acquiredBitmap; // wyswietla video na glownym ekranie
             }
             catch (System.Exception exc)
             {
@@ -1478,8 +1657,6 @@ namespace PicoloVideo
             {
                 imageMutex.ReleaseMutex();
             }
-
-            // - PicoloVideo Sample Program
         }
 
         private void MainForm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -1521,7 +1698,7 @@ namespace PicoloVideo
         {
             try
             {
-                triggerPierwszyKilk = false;
+                triggerFirstClick = false;
                 triggerHardwerowyOn = false;
                 //Thread.Sleep(100);
                 KanalTrigger();
@@ -1537,21 +1714,6 @@ namespace PicoloVideo
             }
             catch { }
         }
-
-        // to wykasowania??? zakomentowalem wnetrze metody bo nie wiem po co jest
-        /*
-        private void Stop_Click(object sender, System.EventArgs e)
-        {
-            /*
-            // + PicoloVideo Sample Program
-            // Stop an acquisition sequence by deactivating the channel
-            if (channel != 0)
-                MC.SetParam(channel, "ChannelState", "IDLE");
-            UpdateStatusBar(String.Format("Frame Rate: {0:f2}, Channel State: IDLE", 0));
-
-            // - PicoloVideo Sample Program
-            
-        }*/
 
         private void MainForm_Closed(object sender, System.EventArgs e)
         {
@@ -1573,11 +1735,9 @@ namespace PicoloVideo
         {
             try
             {
-                // ekran_video = true;
                 KanalVideo();
                 timerZlapKlatki.Stop();
-
-                triggerPierwszyKilk = false;
+                triggerFirstClick = false;
                 triggerHardwerowyOn = false;
                 //Thread.Sleep(100);
                 KanalTrigger();
@@ -1601,7 +1761,7 @@ namespace PicoloVideo
             {
                 try
                 {
-                    ekranGlowny.Image = new Bitmap(image);
+                    mainScreen.Image = new Bitmap(acquiredBitmap);
                 }
                 catch (System.NullReferenceException exc)
                 {
@@ -1615,14 +1775,15 @@ namespace PicoloVideo
         {
             triggerHardwerowyOn = false;
             timerZlapKlatki.Stop();
-            n = 0;
-            seletedImgNumber = 0;
+            actualImgNumber = 0;
+            //selectedImgNumber = 0;
+            selectedImages.Clear();
 
-            for (int i = 0; i < 17; i++)
+            for (int i = 0; i < imgBoxesList.Length; i++)
             {
-                picbox[i].Image = null;
-                picbox[i].BorderStyle = BorderStyle.FixedSingle;
-                seletedImgMarker[i].Visible = false;
+                imgBoxesList[i].Image = null;
+                imgBoxesList[i].BorderStyle = BorderStyle.FixedSingle;
+                seletedImgMarkerList[i].Visible = false;
             }
         }
 
@@ -1640,13 +1801,13 @@ namespace PicoloVideo
             triggerHardwerowyOn = false;
             try
             {
-                picbox[n].Image = new Bitmap(image);
-                n++;
-                if (n > 16) n = 0;
+                imgBoxesList[actualImgNumber].Image = new Bitmap(acquiredBitmap);
+                actualImgNumber++;
+                if (actualImgNumber > imgBoxesList.Length-1) actualImgNumber = 0;
             }
             catch
             {
-                //  MessageBox.Show("Pod³¹cz kamerê i uruchom ponownie program");
+                MessageBox.Show("Nie wykryto kamery");
             }
         }
 
@@ -1673,62 +1834,64 @@ namespace PicoloVideo
         {
             triggerHardwerowyOn = false;
             ekranGlownyOn = false;
-            ekranGlowny.Image = null;
+            mainScreen.Image = null;
         }
 
-
         //  CLICK LEWY / PRAWY        
-        private void buttonPicture_Click(object sender, MouseEventArgs e)
+        private void image_Click(object sender, MouseEventArgs e)
         {
             triggerHardwerowyOn = false;
-            PictureBox pic = (PictureBox)sender;
+            PictureBox clickedImg = (PictureBox)sender;
 
             switch (MouseButtons)
             {
                 case MouseButtons.Left:
 
-                    if (pic.BorderStyle == BorderStyle.FixedSingle)
+                    if (clickedImg.BorderStyle == BorderStyle.FixedSingle)
                     {
-                        pic.BorderStyle = BorderStyle.Fixed3D;
-                        selectedImages.Add(pic.Image);
-                        seletedImgNumber++;
+                        clickedImg.BorderStyle = BorderStyle.Fixed3D;
+                        selectedImages.Add(clickedImg.Image);
                     }
                     else
                     {
-                        pic.BorderStyle = BorderStyle.FixedSingle;
-                        selectedImages.Remove(pic.Image);
-                        seletedImgNumber--;
+                        clickedImg.BorderStyle = BorderStyle.FixedSingle;
+                        selectedImages.Remove(clickedImg.Image);
                     }
 
-                    for (int i = 0; i < 17; i++)
-                        if (picbox[i].BorderStyle == BorderStyle.Fixed3D)
+                    for (int i = 0; i < seletedImgMarkerList.Length; i++)
+                        if (imgBoxesList[i].BorderStyle == BorderStyle.Fixed3D)
                         {
-                            seletedImgMarker[i].Visible = true;
-                            seletedImgMarker[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                            seletedImgMarker[i].Text = "X";
-                            seletedImgMarker[i].ForeColor = System.Drawing.Color.Green;
+                            seletedImgMarkerList[i].Visible = true;
+                            seletedImgMarkerList[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                            seletedImgMarkerList[i].Text = "V";
+                            seletedImgMarkerList[i].ForeColor = System.Drawing.Color.Green;
                         }
-                        else seletedImgMarker[i].Visible = false;
+                        else seletedImgMarkerList[i].Visible = false;
 
-                    textBox1.Text = seletedImgNumber.ToString();
-                    if (seletedImgNumber > 9)
+                    selectedImgNumbersTextBox.Text = selectedImages.Count.ToString();
+                    if (selectedImages.Count > imagesToPrint.Length)
                     {
                         buttonDrukowanie.Enabled = false;
-                        textBox1.ForeColor = System.Drawing.Color.Red;
+                        selectedImgNumbersTextBox.ForeColor = System.Drawing.Color.Red;
+                        foreach (var seletedImgMarker in seletedImgMarkerList)
+                        {
+                            seletedImgMarker.ForeColor = Color.Red;
+                            seletedImgMarker.Text = "X";
+                        }
                     }
 
                     else
                     {
                         buttonDrukowanie.Enabled = true;
-                        textBox1.ForeColor = System.Drawing.Color.Black;
+                        selectedImgNumbersTextBox.ForeColor = System.Drawing.Color.Black;
                     }
                     break;
 
 
                 case MouseButtons.Right:
-                    ekranGlowny.Image = pic.Image;
+                    mainScreen.Image = clickedImg.Image;
                     //NewBitmap = new Bitmap(pic.Image);
-                    NewBitmap = (Bitmap)pic.Image;
+                    NewBitmap = (Bitmap)clickedImg.Image;
                     Img_zapis = NewBitmap;
                     TrackbarJasnosc.Enabled = true;
                     TrackbarKontrast.Enabled = true;
@@ -1744,23 +1907,23 @@ namespace PicoloVideo
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
-            int licznik = 0;
-            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".jpg");
+            int fileSuffixNumber = 0;
+            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
 
-            if (ekranGlowny.Image != null)
+            if (mainScreen.Image != null)
             {
                 if (!File.Exists(sciezkaZapisuJpeg))
                 {
-                    ekranGlowny.Image.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
+                    mainScreen.Image.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
                 }
                 else
                 {
                     while (File.Exists(sciezkaZapisuJpeg))
                     {
-                        licznik++;
-                        sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".jpg");
+                        fileSuffixNumber++;
+                        sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
                     }
-                    ekranGlowny.Image.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
+                    mainScreen.Image.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
                 }
             }
         }
@@ -1771,66 +1934,60 @@ namespace PicoloVideo
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
-            int licznik = 0;
-            String sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".bmp");
+            int fileSuffixNumber = 0;
+            String sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber.ToString() + ".bmp");
 
-            if (ekranGlowny.Image != null)
+            if (mainScreen.Image != null)
             {
                 if (!File.Exists(sciezkaZapisuBmp))
                 {
-                    ekranGlowny.Image.Save(sciezkaZapisuBmp, ImageFormat.Bmp);
+                    mainScreen.Image.Save(sciezkaZapisuBmp, ImageFormat.Bmp);
                 }
                 else
                 {
                     while (File.Exists(sciezkaZapisuBmp))
                     {
-                        licznik++;
-                        sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".bmp");
+                        fileSuffixNumber++;
+                        sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber.ToString() + ".bmp");
                     }
-                    ekranGlowny.Image.Save(sciezkaZapisuBmp, ImageFormat.Bmp);
+                    mainScreen.Image.Save(sciezkaZapisuBmp, ImageFormat.Bmp);
                 }
             }
-
-            /*
-
-            if (!Directory.Exists(textBoxSciezkaZapisu.Text))
-                Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
-            if (ekranGlowny.Image != null)
-                ekranGlowny.Image.Save(textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + ".bmp", ImageFormat.Bmp);
-                */
-        }
+            }
 
         // DRUKOWANIE
         private void buttonDrukowanie_Click(object sender, EventArgs e)
         {
             try
             {
-                Form1 Druk = new Form1();
-                Druk.Show();
+                PrintingWindowForm printingForm = new PrintingWindowForm();
+                printingForm.Show();
 
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < imagesToPrint.Length; i++)
+                {
                     imagesToPrint[i] = null;
+                }
 
                 selectedImages.CopyTo(imagesToPrint);
 
                 if (imagesToPrint[0] != null)
-                    Druk.pic11.Image = imagesToPrint[0];
+                    printingForm.pic11.Image = imagesToPrint[0];
                 if (imagesToPrint[1] != null)
-                    Druk.pic12.Image = imagesToPrint[1];
+                    printingForm.pic12.Image = imagesToPrint[1];
                 if (imagesToPrint[2] != null)
-                    Druk.pic13.Image = imagesToPrint[2];
+                    printingForm.pic13.Image = imagesToPrint[2];
                 if (imagesToPrint[3] != null)
-                    Druk.pic21.Image = imagesToPrint[3];
+                    printingForm.pic21.Image = imagesToPrint[3];
                 if (imagesToPrint[4] != null)
-                    Druk.pic22.Image = imagesToPrint[4];
+                    printingForm.pic22.Image = imagesToPrint[4];
                 if (imagesToPrint[5] != null)
-                    Druk.pic23.Image = imagesToPrint[5];
+                    printingForm.pic23.Image = imagesToPrint[5];
                 if (imagesToPrint[6] != null)
-                    Druk.pic31.Image = imagesToPrint[6];
+                    printingForm.pic31.Image = imagesToPrint[6];
                 if (imagesToPrint[7] != null)
-                    Druk.pic32.Image = imagesToPrint[7];
+                    printingForm.pic32.Image = imagesToPrint[7];
                 if (imagesToPrint[8] != null)
-                    Druk.pic33.Image = imagesToPrint[8];
+                    printingForm.pic33.Image = imagesToPrint[8];
             }
             catch { }
         }
@@ -1838,33 +1995,33 @@ namespace PicoloVideo
 
         private void buttonClipboard_Click(object sender, EventArgs e)
         {
-            if (ekranGlowny.Image != null)
+            if (mainScreen.Image != null)
             {
-                Clipboard.SetImage(ekranGlowny.Image);
+                Clipboard.SetImage(mainScreen.Image);
             }
         }
 
         // TRACKBARY
-        private void TrackBar_Scroll_1(object sender, EventArgs e)
+        private void trackBar_Scroll(object sender, EventArgs e)
         {
-            scorr = (float)TrackbarNasycenie.Value / 100;
+            saturationValue = (float)TrackbarNasycenie.Value / 100;
             textBoxNasycenieNumber.Text = TrackbarNasycenie.Value.ToString();
 
-            ccorr = TrackbarKontrast.Value;
-            textBoxKontrastNumber.Text = ccorr.ToString();
+            contrastValue = TrackbarKontrast.Value;
+            textBoxKontrastNumber.Text = contrastValue.ToString();
 
-            bcorr = TrackbarJasnosc.Value;
-            textBoxJasnoscNumber.Text = bcorr.ToString();
+            BrightnessValue = TrackbarJasnosc.Value;
+            textBoxJasnoscNumber.Text = BrightnessValue.ToString();
         }
 
         private void buttonZapiszUstawienia_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(path))
-                File.CreateText(path);
+            if (!File.Exists(configFilePath))
+                File.CreateText(configFilePath);
 
             try
             {
-                using (StreamWriter sw = new StreamWriter(path))
+                using (StreamWriter sw = new StreamWriter(configFilePath))
                 {
                     sw.WriteLine(TrackbarJasnosc.Value);
                     sw.WriteLine(TrackbarKontrast.Value);
@@ -1971,11 +2128,13 @@ namespace PicoloVideo
         private void buttonAnulujWybrane_Click(object sender, EventArgs e)
         {
             selectedImages.Clear();
-            for (int i = 0; i < 17; i++)
+            for (int i = 0; i < imgBoxesList.Length; i++)
             {
-                picbox[i].BorderStyle = BorderStyle.FixedSingle;
-                seletedImgNumber = 0;
-                seletedImgMarker[i].Visible = false;
+                imgBoxesList[i].BorderStyle = BorderStyle.FixedSingle;
+                selectedImgNumbersTextBox.Text = selectedImages.Count.ToString();
+                buttonDrukowanie.Enabled = true;
+                selectedImgNumbersTextBox.ForeColor = System.Drawing.Color.Black;
+                seletedImgMarkerList[i].Visible = false;
             }
         }
 
@@ -1985,12 +2144,12 @@ namespace PicoloVideo
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
-            int licznik = 0;
-            string sciezkaAvi = textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + ".avi";
+            int fileSuffixNumber = 0;
+            string aviPath = textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + ".avi";
 
-            if (!File.Exists(sciezkaAvi))
+            if (!File.Exists(aviPath))
             {
-                blokujPrzyciski();
+                disableButtons();
 
                 ekranGlownyOn = false;
                 triggerHardwerowyOn = false;
@@ -2000,7 +2159,7 @@ namespace PicoloVideo
 
                 try
                 {
-                    writer.Open(sciezkaAvi, width, height, 25, VideoCodec.MPEG4, 1000000);
+                    writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
                 }
                 catch { }
 
@@ -2009,12 +2168,12 @@ namespace PicoloVideo
             }
             else
             {
-                while (File.Exists(sciezkaAvi))
+                while (File.Exists(aviPath))
                 {
-                    licznik++;
-                    sciezkaAvi = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + licznik.ToString() + ".avi");
+                    fileSuffixNumber++;
+                    aviPath = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + fileSuffixNumber + ".avi");
                 }
-                blokujPrzyciski();
+                disableButtons();
                 ekranGlownyOn = false;
                 triggerHardwerowyOn = false;
                 KanalVideo();
@@ -2023,7 +2182,7 @@ namespace PicoloVideo
 
                 try
                 {
-                    writer.Open(sciezkaAvi, width, height, 25, VideoCodec.MPEG4, 1000000);
+                    writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
                 }
                 catch { }
 
@@ -2033,7 +2192,7 @@ namespace PicoloVideo
             }          
         }
 
-        private void blokujPrzyciski()
+        private void disableButtons()
         {
             buttonZlapKlatke.Enabled = false;
             buttonZlapKlatki.Enabled = false;
@@ -2045,7 +2204,7 @@ namespace PicoloVideo
             buttonStartKlatki.Enabled = false;
         }
 
-        private void odblokujPrzyciski()
+        private void enableButtons()
         {
             buttonZlapKlatke.Enabled = true;
             buttonZlapKlatki.Enabled = true;
@@ -2062,7 +2221,7 @@ namespace PicoloVideo
             
             try
             {
-                writer.WriteVideoFrame(image);                
+                writer.WriteVideoFrame(acquiredBitmap);                
             }
             catch
             { }
@@ -2072,7 +2231,7 @@ namespace PicoloVideo
         {
             timerNagrywanie.Stop();
             writer.Close();            
-            odblokujPrzyciski();
+            enableButtons();
             buttonNagrywaj.BackColor = Color.White;
             videoStop();
         }              
@@ -2083,19 +2242,19 @@ namespace PicoloVideo
             triggerHardwerowyOn = false;
             KanalVideo();
             timerNagrywanie.Start();
-            AviManager mana = new AviManager("local.avi", false);
+            AviManager aviManager = new AviManager("local.avi", false);
 
             //false means do not show the diag of the Compression 
             //21 means the fps of the video
             //maplist[0] cover of the video  the maplist is the val you should insert 
-            VideoStream avistream = mana.AddVideoStream(false, 21, maps[0]);
+            VideoStream avistream = aviManager.AddVideoStream(false, 21, maps[0]);
 
             for (int i = 1; i < maps.Count; i++)
             {
                 avistream.AddFrame(maps[i]);
             }
 
-            mana.Close();
+            aviManager.Close();
             MessageBox.Show("AddOk");
         }
 
@@ -2109,16 +2268,15 @@ namespace PicoloVideo
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
-            int licznik = 0;
-            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".jpg");
+            int fileSuffixNumber = 0;
+            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
 
             foreach (Image tempImage in listaZdjeciaVideo)
             {
                 while (File.Exists(sciezkaZapisuJpeg))
                 {
-
-                    licznik++;
-                    sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + licznik.ToString() + ".jpg");
+                    fileSuffixNumber++;
+                    sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
                 }
                 tempImage.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
 
