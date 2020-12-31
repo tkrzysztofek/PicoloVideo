@@ -53,7 +53,6 @@ C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\bin\x86\Debug\AForge.xml
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\bin\x86\Debug\AForge.Math.xml
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\bin\x86\Debug\AForge.Video.xml
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo110.csprojAssemblyReference.cache
-C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.Form1.resources
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.MainForm.resources
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.Properties.Resources.resources
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo110.csproj.GenerateResource.cache
@@ -61,3 +60,4 @@ C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo110.
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo110.csproj.CopyComplete
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.exe
 C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.pdb
+C:\Users\Comarch\source\repos\tkrzysztofek\PicoloVideo\obj\Debug\PicoloVideo.PrintingWindowForm.resources
