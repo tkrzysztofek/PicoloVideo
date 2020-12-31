@@ -53,7 +53,7 @@ namespace PicoloVideo
         bool triggerPierwszyKilk = false;
         //bool nagrywanieON = false;
 
-        List<Image> selectedImages = new List<Image>();
+        List<Image> zdjecia = new List<Image>();
         List<Bitmap> listaZdjeciaVideo = new List<Bitmap>();
 
         Bitmap tempBitmap;
@@ -65,11 +65,11 @@ namespace PicoloVideo
         float scorr = 0;
 
         PictureBox[] picbox = new PictureBox[17];
-        TextBox[] seletedImgMarker = new TextBox[17];
-        Image[] imagesToPrint = new Image[9];
+        TextBox[] textboxX = new TextBox[17];
+        Image[] tablica = new Image[9];
 
         int n = 0;
-        int seletedImgNumber = 0;
+        int m = 0;
         bool ekranGlownyOn = false;
         //private static Timer aTimer;
 
@@ -90,7 +90,7 @@ namespace PicoloVideo
         private UInt32 currentSurface;
 
         // Track if acquisition is ongoing
-        private volatile bool channelActive;
+        private volatile bool channelactive;
 
         MC.CALLBACK multiCamCallback;
 
@@ -235,26 +235,26 @@ namespace PicoloVideo
             picbox[15] = picture16;
             picbox[16] = picture17;
 
-            seletedImgMarker[0] = tbox1;
-            seletedImgMarker[1] = tbox2;
-            seletedImgMarker[2] = tbox3;
-            seletedImgMarker[3] = tbox4;
-            seletedImgMarker[4] = tbox5;
-            seletedImgMarker[5] = tbox6;
-            seletedImgMarker[6] = tbox7;
-            seletedImgMarker[7] = tbox8;
-            seletedImgMarker[8] = tbox9;
-            seletedImgMarker[9] = tbox10;
-            seletedImgMarker[10] = tbox11;
-            seletedImgMarker[11] = tbox12;
-            seletedImgMarker[12] = tbox13;
-            seletedImgMarker[13] = tbox14;
-            seletedImgMarker[14] = tbox15;
-            seletedImgMarker[15] = tbox16;
-            seletedImgMarker[16] = tbox17;
+            textboxX[0] = tbox1;
+            textboxX[1] = tbox2;
+            textboxX[2] = tbox3;
+            textboxX[3] = tbox4;
+            textboxX[4] = tbox5;
+            textboxX[5] = tbox6;
+            textboxX[6] = tbox7;
+            textboxX[7] = tbox8;
+            textboxX[8] = tbox9;
+            textboxX[9] = tbox10;
+            textboxX[10] = tbox11;
+            textboxX[11] = tbox12;
+            textboxX[12] = tbox13;
+            textboxX[13] = tbox14;
+            textboxX[14] = tbox15;
+            textboxX[15] = tbox16;
+            textboxX[16] = tbox17;
 
             for (int i = 0; i < 17; i++)
-                seletedImgMarker[i].Visible = false;
+                textboxX[i].Visible = false;
         }
 
         /// <summary>
@@ -707,7 +707,7 @@ namespace PicoloVideo
             this.textBoxSciezkaZapisu.Name = "textBoxSciezkaZapisu";
             this.textBoxSciezkaZapisu.Size = new System.Drawing.Size(69, 20);
             this.textBoxSciezkaZapisu.TabIndex = 37;
-            this.textBoxSciezkaZapisu.Text = "c://selectedImages/";
+            this.textBoxSciezkaZapisu.Text = "c://zdjecia/";
             // 
             // label3
             // 
@@ -1094,7 +1094,7 @@ namespace PicoloVideo
             // MainForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(1137, 971);
+            this.ClientSize = new System.Drawing.Size(1137, 834);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBoxNazwaPlikuAvi);
             this.Controls.Add(this.buttonStopNagrywanie);
@@ -1172,7 +1172,7 @@ namespace PicoloVideo
             this.Text = "PicoloVideo";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.Closed += new System.EventHandler(this.MainForm_Closed);
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            //this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.ekranGlowny)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
@@ -1213,11 +1213,11 @@ namespace PicoloVideo
         {
             // !-!
             const string appName = "MyAppName";
-            bool isAppCreated;
+            bool createdNew;
 
-            mutex = new Mutex(true, appName, out isAppCreated);
+            mutex = new Mutex(true, appName, out createdNew);
 
-            if (!isAppCreated)
+            if (!createdNew)
             {
                 DialogResult dialogResult = MessageBox.Show("Wykryto uruchomiony program, czy napewno kontynuowaæ?", "UWAGA !", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -1235,16 +1235,17 @@ namespace PicoloVideo
             Application.Run(new MainForm());
         }
 
-        private void startChannel()
+        private void start_kanal()
         {
-           
-            MC.OpenDriver(); 
+            //MC.BOARD("BoardTopology", "1_2_0");
+
+            MC.OpenDriver();
 
             // Enable error logging
-            MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log"); 
+            MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
 
             // Create a channel and associate it with the first connector on the first board
-            MC.Create("CHANNEL", out channel); 
+            MC.Create("CHANNEL", out channel);
             try
             {
                 MC.SetParam(MC.BOARD, "BoardTopology", "1_01_2");
@@ -1275,22 +1276,38 @@ namespace PicoloVideo
             catch (Euresys.MultiCamException exc)
             {
                 MessageBox.Show("Problem nr. e1 \n \n" + exc.Message);
-            }; 
+            };
         }
-        
+
         private void MainForm_Load(object sender, System.EventArgs e)
         {
-            Boolean uruchomienieBezKarty = true;
-            if (uruchomienieBezKarty)
-            {
-                return;
-            }
-
             // + PicoloVideo Sample Program
             
             try
-            { 
-                startChannel();
+            {
+                start_kanal();
+                //// Open MultiCam driver
+                //MC.OpenDriver();
+
+                //// Enable error logging
+                //MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
+
+                //// Create a channel and associate it with the first connector on the first board
+                //MC.Create("CHANNEL", out channel);
+
+                //MC.SetParam(channel, "DriverIndex", 0);
+                //if (radioButtonV1.Checked)
+                //    MC.SetParam(channel, "Connector", "VID1");
+                //else if (radioButtonV2.Checked)
+                //    MC.SetParam(channel, "Connector", "VID2");
+                //else
+                //    MC.SetParam(channel, "Connector", "VID3");
+
+
+                //// Choose the video standard
+                //MC.SetParam(channel, "CamFile", "PAL");
+                //// Choose the pixel color format
+                //MC.SetParam(channel, "ColorFormat", "RGB24");
 
                 // Choose the acquisition mode
                 MC.SetParam(channel, "AcquisitionMode", "VIDEO");
@@ -1312,11 +1329,11 @@ namespace PicoloVideo
                 MC.SetParam(channel, MC.SignalEnable + MC.SIG_ACQUISITION_FAILURE, "ON");
                 MC.SetParam(channel, MC.SignalEnable + MC.SIG_END_CHANNEL_ACTIVITY, "ON");
                 MC.SetParam(channel, "BufferPitch", 4096);
-                ////channelActive = false;
+                ////channelactive = false;
 
                 MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
                 Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
-                channelActive = true;                         //                
+                channelactive = true;                         //                
                 Refresh();//
 
                 //Prepare the channel in order to minimize the acquisition sequence startup latency
@@ -1331,8 +1348,8 @@ namespace PicoloVideo
                 MessageBox.Show("NIE WYKRYTO KARTY \n \n" + exc.Message, "MultiCam Exception");
 
                 Close();
-            }  
-
+            }
+            
             // - PicoloVideo Sample Program
         }
 
@@ -1495,10 +1512,10 @@ namespace PicoloVideo
             {
                 if (channel != 0)
                     MC.SetParam(channel, "ChannelState", "IDLE");
-                channelActive = false;
+                channelactive = false;
 
                 // Whait that the channel has finished the last acquisition
-                while (channelActive == true)
+                while (channelactive == true)
                 {
                     Thread.Sleep(10);
                 }
@@ -1531,7 +1548,7 @@ namespace PicoloVideo
                 if (channelState != "ACTIVE")
                     MC.SetParam(channel, "ChannelState", "ACTIVE");
                 Refresh();
-                channelActive = true;
+                channelactive = true;
                 ekranGlownyOn = true;
                 triggerHardwerowyOn = true;
             }
@@ -1587,7 +1604,7 @@ namespace PicoloVideo
                 if (channelState != "ACTIVE")
                     MC.SetParam(channel, "ChannelState", "ACTIVE");
                 Refresh();
-                channelActive = true;
+                channelactive = true;
                 ekranGlownyOn = true;
                 triggerHardwerowyOn = true;
 
@@ -1616,13 +1633,13 @@ namespace PicoloVideo
             triggerHardwerowyOn = false;
             timerZlapKlatki.Stop();
             n = 0;
-            seletedImgNumber = 0;
+            m = 0;
 
             for (int i = 0; i < 17; i++)
             {
                 picbox[i].Image = null;
                 picbox[i].BorderStyle = BorderStyle.FixedSingle;
-                seletedImgMarker[i].Visible = false;
+                textboxX[i].Visible = false;
             }
         }
 
@@ -1690,28 +1707,30 @@ namespace PicoloVideo
                     if (pic.BorderStyle == BorderStyle.FixedSingle)
                     {
                         pic.BorderStyle = BorderStyle.Fixed3D;
-                        selectedImages.Add(pic.Image);
-                        seletedImgNumber++;
+                        zdjecia.Add(pic.Image);
+                        // main_screen.Image = pic.Image;
+                        // zdjecia.Add(picbox[i].Image);
+                        m++;
                     }
                     else
                     {
                         pic.BorderStyle = BorderStyle.FixedSingle;
-                        selectedImages.Remove(pic.Image);
-                        seletedImgNumber--;
+                        zdjecia.Remove(pic.Image);
+                        m--;
                     }
 
                     for (int i = 0; i < 17; i++)
                         if (picbox[i].BorderStyle == BorderStyle.Fixed3D)
                         {
-                            seletedImgMarker[i].Visible = true;
-                            seletedImgMarker[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                            seletedImgMarker[i].Text = "X";
-                            seletedImgMarker[i].ForeColor = System.Drawing.Color.Green;
+                            textboxX[i].Visible = true;
+                            textboxX[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                            textboxX[i].Text = "X";
+                            textboxX[i].ForeColor = System.Drawing.Color.Green;
                         }
-                        else seletedImgMarker[i].Visible = false;
+                        else textboxX[i].Visible = false;
 
-                    textBox1.Text = seletedImgNumber.ToString();
-                    if (seletedImgNumber > 9)
+                    textBox1.Text = m.ToString();
+                    if (m > 9)
                     {
                         buttonDrukowanie.Enabled = false;
                         textBox1.ForeColor = System.Drawing.Color.Red;
@@ -1809,28 +1828,28 @@ namespace PicoloVideo
                 Druk.Show();
 
                 for (int i = 0; i < 9; i++)
-                    imagesToPrint[i] = null;
+                    tablica[i] = null;
 
-                selectedImages.CopyTo(imagesToPrint);
+                zdjecia.CopyTo(tablica);
 
-                if (imagesToPrint[0] != null)
-                    Druk.pic11.Image = imagesToPrint[0];
-                if (imagesToPrint[1] != null)
-                    Druk.pic12.Image = imagesToPrint[1];
-                if (imagesToPrint[2] != null)
-                    Druk.pic13.Image = imagesToPrint[2];
-                if (imagesToPrint[3] != null)
-                    Druk.pic21.Image = imagesToPrint[3];
-                if (imagesToPrint[4] != null)
-                    Druk.pic22.Image = imagesToPrint[4];
-                if (imagesToPrint[5] != null)
-                    Druk.pic23.Image = imagesToPrint[5];
-                if (imagesToPrint[6] != null)
-                    Druk.pic31.Image = imagesToPrint[6];
-                if (imagesToPrint[7] != null)
-                    Druk.pic32.Image = imagesToPrint[7];
-                if (imagesToPrint[8] != null)
-                    Druk.pic33.Image = imagesToPrint[8];
+                if (tablica[0] != null)
+                    Druk.pic11.Image = tablica[0];
+                if (tablica[1] != null)
+                    Druk.pic12.Image = tablica[1];
+                if (tablica[2] != null)
+                    Druk.pic13.Image = tablica[2];
+                if (tablica[3] != null)
+                    Druk.pic21.Image = tablica[3];
+                if (tablica[4] != null)
+                    Druk.pic22.Image = tablica[4];
+                if (tablica[5] != null)
+                    Druk.pic23.Image = tablica[5];
+                if (tablica[6] != null)
+                    Druk.pic31.Image = tablica[6];
+                if (tablica[7] != null)
+                    Druk.pic32.Image = tablica[7];
+                if (tablica[8] != null)
+                    Druk.pic33.Image = tablica[8];
             }
             catch { }
         }
@@ -1839,9 +1858,31 @@ namespace PicoloVideo
         private void buttonClipboard_Click(object sender, EventArgs e)
         {
             if (ekranGlowny.Image != null)
-            {
                 Clipboard.SetImage(ekranGlowny.Image);
-            }
+
+            /*
+          string p0 = Environment.CurrentDirectory + "/" + "zdjecie0.jpg";
+           string p1 = Environment.CurrentDirectory + "/" + "zdjecie1.jpg";
+           string p2 = Environment.CurrentDirectory + "/" + "zdjecie2.jpg";
+           string p3 = Environment.CurrentDirectory + "/" + "zdjecie3.jpg";
+           string p4 = Environment.CurrentDirectory + "/" + "zdjecie4.jpg";
+           string p5 = Environment.CurrentDirectory + "/" + "zdjecie5.jpg";
+
+           // main_screen.Image.Save(textBox3.Text + textBox2.Text + ".jpg", ImageFormat.j);
+
+           picbox[0].Image = Image.FromFile(p0);
+           picbox[1].Image = Image.FromFile(p1);
+           picbox[2].Image = Image.FromFile(p2);
+           picbox[3].Image = Image.FromFile(p3);
+           picbox[4].Image = Image.FromFile(p4);
+           picbox[5].Image = Image.FromFile(p5);
+
+            /*
+           for (int i = 0; i < 17; i++)
+           {
+               picbox[i].Image = Image.FromFile(p);  
+           }*/
+
         }
 
         // TRACKBARY
@@ -1881,7 +1922,7 @@ namespace PicoloVideo
         }
 
         private void KanalVideo()
-        { 
+        {
             triggerHardwerowyOn = false;
             string tryb;
 
@@ -1896,7 +1937,30 @@ namespace PicoloVideo
 
                 Thread.Sleep(10);
 
-                startChannel();
+                start_kanal();
+
+                //MC.OpenDriver();
+
+                //// Enable error logging
+                //MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
+
+                //// Create a channel and associate it with the first connector on the first board
+                //MC.Create("CHANNEL", out channel);
+                //MC.SetParam(channel, "DriverIndex", 0);
+                //if (radioButtonV1.Checked)
+                //    MC.SetParam(channel, "Connector", "VID1");
+                //else if (radioButtonV2.Checked)
+                //    MC.SetParam(channel, "Connector", "VID2");
+                //else
+                //    MC.SetParam(channel, "Connector", "VID3");
+
+                //// Choose the video standard
+                //MC.SetParam(channel, "CamFile", "PAL");
+                //// Choose the pixel color format
+                //MC.SetParam(channel, "ColorFormat", "RGB24");
+
+                //// Choose the acquisition mode
+                //MC.SetParam(channel, "AcquisitionMode", "VIDEO");
 
                 // Choose the way the first acquisition is triggered
                 MC.SetParam(channel, "TrigMode", "IMMEDIATE");
@@ -1914,14 +1978,14 @@ namespace PicoloVideo
                 MC.SetParam(channel, MC.SignalEnable + MC.SIG_ACQUISITION_FAILURE, "ON");
                 MC.SetParam(channel, MC.SignalEnable + MC.SIG_END_CHANNEL_ACTIVITY, "ON");
                 MC.SetParam(channel, "BufferPitch", 4096);
-                channelActive = false;
+                channelactive = false;
 
                 MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
                 Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
-                channelActive = true;                           //
+                channelactive = true;                           //
 
                 Refresh();
-            } 
+            }
         }
 
         private void KanalTrigger()
@@ -1935,13 +1999,37 @@ namespace PicoloVideo
             {
 
                 MC.SetParam(channel, "ChannelState", "IDLE");
-                channelActive = false;
+                channelactive = false;
                 MC.Delete(channel);
                 channel = 0;
 
                 Thread.Sleep(10);
 
-                startChannel();
+                start_kanal();
+
+                //MC.OpenDriver();
+
+                //// Enable error logging
+                //MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
+
+                //// Create a channel and associate it with the first connector on the first board
+                //MC.Create("CHANNEL", out channel);
+
+                //MC.SetParam(channel, "DriverIndex", 0);
+                //if (radioButtonV1.Checked)
+                //    MC.SetParam(channel, "Connector", "VID1");
+                //else if (radioButtonV2.Checked)
+                //    MC.SetParam(channel, "Connector", "VID2");
+                //else
+                //    MC.SetParam(channel, "Connector", "VID3");
+
+                //// Choose the video standard
+                //MC.SetParam(channel, "CamFile", "PAL");
+                //// Choose the pixel color format
+                //MC.SetParam(channel, "ColorFormat", "RGB24");
+
+                //// Choose the acquisition mode
+                //MC.SetParam(channel, "AcquisitionMode", "VIDEO");
 
                 MC.SetParam(channel, "TrigMode", "COMBINED");
                 // Choose the triggering mode for subsequent acquisitions
@@ -1970,12 +2058,12 @@ namespace PicoloVideo
 
         private void buttonAnulujWybrane_Click(object sender, EventArgs e)
         {
-            selectedImages.Clear();
+            zdjecia.Clear();
             for (int i = 0; i < 17; i++)
             {
                 picbox[i].BorderStyle = BorderStyle.FixedSingle;
-                seletedImgNumber = 0;
-                seletedImgMarker[i].Visible = false;
+                m = 0;
+                textboxX[i].Visible = false;
             }
         }
 
@@ -2055,6 +2143,7 @@ namespace PicoloVideo
             buttonVideoStart.Enabled = true;
             buttonVideoStop.Enabled = true;
             buttonStartKlatki.Enabled = true;
+
         }
 
         private void timerNagrywanie_Tick(object sender, EventArgs e)
