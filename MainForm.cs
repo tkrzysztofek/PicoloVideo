@@ -52,6 +52,7 @@ namespace PicoloVideo
         
         bool triggerHardwerowyOn = false;
         bool triggerFirstClick = false;
+        bool uruchomienieBezKarty;
         //bool nagrywanieON = false;
 
         List<Image> selectedImages = new List<Image>();
@@ -208,6 +209,7 @@ namespace PicoloVideo
                     textBoxSciezkaZapisu.Text = sr.ReadLine();
                     textBoxNazwaPlikuJpgBmp.Text = sr.ReadLine();
                     textBoxNazwaPlikuAvi.Text = sr.ReadLine();
+                    if (sr.ReadLine() == "service") uruchomienieBezKarty = true;
                 }
             }
             catch
@@ -219,6 +221,7 @@ namespace PicoloVideo
                 textBoxSciezkaZapisu.Text = "c://zdjecia/";
                 textBoxNazwaPlikuJpgBmp.Text = "zdjecie1";
                 textBoxNazwaPlikuAvi.Text = "video";
+                uruchomienieBezKarty = false;
             }
 
             saturationValue = (float)TrackbarNasycenie.Value / 100;
@@ -1466,8 +1469,7 @@ namespace PicoloVideo
         }
         
         private void MainForm_Load(object sender, System.EventArgs e)
-        {
-            Boolean uruchomienieBezKarty = true;
+        {            
             if (uruchomienieBezKarty)
             {
                 return;
