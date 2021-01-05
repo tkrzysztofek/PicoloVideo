@@ -59,16 +59,16 @@ namespace PicoloVideo
             try
             {
                 PrintDialog printDialog = new PrintDialog();
-                PrintDocument document = new PrintDocument();
+                PrintDocument printDoc = new PrintDocument();
 
-                loadPrinterSettingsFromFile(document);
+                loadPrinterSettingsFromFile(printDoc);
 
-                document.PrintPage += Doc_PrintPage;
+                printDoc.PrintPage += Doc_PrintPage;
 
-                printDialog.Document = document;
+                printDialog.Document = printDoc;
                 if (printDialog.ShowDialog() == DialogResult.OK)
                 {
-                    document.Print();
+                    printDoc.Print();
                 }
             }
             catch

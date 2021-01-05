@@ -42,16 +42,16 @@ namespace PicoloVideo
     /// Summary description for PrintingWindowForm.
     /// </summary>
     /// 
-
     public class MainForm : System.Windows.Forms.Form
     {
         Int32 globalWidthOfImage, globalHeightOfImage;
         Bitmap NewBitmap = null;
         Bitmap Img_zapis = null;
         VideoFileWriter writer = new VideoFileWriter();
-        
+
         bool triggerHardwerowyOn = false;
         bool triggerFirstClick = false;
+
         bool uruchomienieBezKarty;
         //bool nagrywanieON = false;
 
@@ -71,12 +71,14 @@ namespace PicoloVideo
         Image[] imagesToPrint = new Image[9];
 
         int actualImgNumber = 0;
+
         //int selectedImgNumber = 0;
-        bool ekranGlownyOn = false;
+        bool mainScreenOn = false;
         //private static Timer aTimer;
 
         // Creation of an event for asynchronous call to paint function
         public delegate void PaintDelegate(Graphics g);
+
         public delegate void UpdateStatusBarDelegate(String text);
 
         // The object that will contain the acquired image
@@ -224,7 +226,7 @@ namespace PicoloVideo
                 uruchomienieBezKarty = false;
             }
 
-            saturationValue = (float)TrackbarNasycenie.Value / 100;
+            saturationValue = (float) TrackbarNasycenie.Value / 100;
             textBoxNasycenieNumber.Text = TrackbarNasycenie.Value.ToString();
 
             contrastValue = TrackbarKontrast.Value;
@@ -302,10 +304,12 @@ namespace PicoloVideo
                     components.Dispose();
                 }
             }
+
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
+
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -401,34 +405,34 @@ namespace PicoloVideo
             this.picture20 = new System.Windows.Forms.PictureBox();
             this.picture23 = new System.Windows.Forms.PictureBox();
             this.picture22 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture17)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarJasnosc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture19)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture21)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture20)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture23)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture22)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.mainScreen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarJasnosc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarKontrast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarNasycenie)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture23)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture22)).BeginInit();
             this.SuspendLayout();
             // 
             // mainScreen
@@ -668,7 +672,8 @@ namespace PicoloVideo
             // 
             // buttonZlapKlatke
             // 
-            this.buttonZlapKlatke.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonZlapKlatke.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
+                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
             this.buttonZlapKlatke.Location = new System.Drawing.Point(971, 8);
             this.buttonZlapKlatke.Name = "buttonZlapKlatke";
             this.buttonZlapKlatke.Size = new System.Drawing.Size(153, 52);
@@ -727,7 +732,8 @@ namespace PicoloVideo
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold,
+                System.Drawing.GraphicsUnit.Point, ((byte) (238)));
             this.label2.Location = new System.Drawing.Point(1034, 930);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 16);
@@ -736,7 +742,8 @@ namespace PicoloVideo
             // 
             // buttonZapiszJpg
             // 
-            this.buttonZapiszJpg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonZapiszJpg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
+                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
             this.buttonZapiszJpg.Location = new System.Drawing.Point(971, 536);
             this.buttonZapiszJpg.Name = "buttonZapiszJpg";
             this.buttonZapiszJpg.Size = new System.Drawing.Size(153, 56);
@@ -780,7 +787,8 @@ namespace PicoloVideo
             // 
             // buttonDrukowanie
             // 
-            this.buttonDrukowanie.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonDrukowanie.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
+                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
             this.buttonDrukowanie.Location = new System.Drawing.Point(971, 872);
             this.buttonDrukowanie.Name = "buttonDrukowanie";
             this.buttonDrukowanie.Size = new System.Drawing.Size(153, 56);
@@ -1358,45 +1366,45 @@ namespace PicoloVideo
             this.Closed += new System.EventHandler(this.MainForm_Closed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture16)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarJasnosc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture19)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture21)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture20)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture23)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picture22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.mainScreen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarJasnosc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarKontrast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.TrackbarNasycenie)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.picture22)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
         #endregion
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         /// 
-        private static Mutex mutex = null;  // !-!
+        private static Mutex mutex = null; // !-!
 
         [STAThread]
         static void Main()
@@ -1409,7 +1417,8 @@ namespace PicoloVideo
 
             if (!isAppCreated)
             {
-                DialogResult dialogResult = MessageBox.Show("Wykryto uruchomiony program, czy napewno kontynuowaæ?", "UWAGA !", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Wykryto uruchomiony program, czy napewno kontynuowaæ?",
+                    "UWAGA !", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     //do something
@@ -1427,21 +1436,23 @@ namespace PicoloVideo
 
         private void startChannel()
         {
-           
-            MC.OpenDriver(); 
+            MC.OpenDriver();
 
             // Enable error logging
-            MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log"); 
+            MC.SetParam(MC.CONFIGURATION, "ErrorLog", "error.log");
 
             // Create a channel and associate it with the first connector on the first board
-            MC.Create("CHANNEL", out channel); 
+            MC.Create("CHANNEL", out channel);
             try
             {
                 MC.SetParam(MC.BOARD, "BoardTopology", "1_01_2");
             }
-            catch(Euresys.MultiCamException exc) {
+            catch (Euresys.MultiCamException exc)
+            {
                 MessageBox.Show("Problem topologii \n \n" + exc.Message);
-            };
+            }
+
+            ;
 
             try
             {
@@ -1465,20 +1476,23 @@ namespace PicoloVideo
             catch (Euresys.MultiCamException exc)
             {
                 MessageBox.Show("Problem nr. e1 \n \n" + exc.Message);
-            }; 
+            }
+
+            ;
         }
-        
+
         private void MainForm_Load(object sender, System.EventArgs e)
-        {            
+        {
+            //uruchomienieBezKarty = true;
             if (uruchomienieBezKarty)
             {
                 return;
             }
 
             // + PicoloVideo Sample Program
-            
+
             try
-            { 
+            {
                 startChannel();
 
                 // Choose the acquisition mode
@@ -1504,14 +1518,13 @@ namespace PicoloVideo
                 ////channelActive = false;
 
                 MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
-                Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
-                channelActive = true;                         //                
-                Refresh();//
+                Refresh(); //       AUT OSTART PRZY URUCHOMIENIU
+                channelActive = true; //                
+                Refresh(); //
 
                 //Prepare the channel in order to minimize the acquisition sequence startup latency
                 MC.SetParam(channel, "ChannelState", "READY");
                 MC.SetParam(channel, "ChannelState", "ACTIVE");
-
             }
             catch (Euresys.MultiCamException exc)
             {
@@ -1520,7 +1533,7 @@ namespace PicoloVideo
                 MessageBox.Show("NIE WYKRYTO KARTY \n \n" + exc.Message, "MultiCam Exception");
 
                 Close();
-            }  
+            }
 
             // - PicoloVideo Sample Program
         }
@@ -1549,7 +1562,9 @@ namespace PicoloVideo
                     catch (Euresys.MultiCamException exc)
                     {
                         MessageBox.Show("Problem nr. e2 \n \n" + exc.Message);
-                    };
+                    }
+
+                    ;
                     break;
                 default:
                     throw new Euresys.MultiCamException("Unknown signal");
@@ -1558,12 +1573,8 @@ namespace PicoloVideo
 
         private void ProcessingCallback(MC.SIGNALINFO signalInfo)
         {
-            UInt32 currentChannel = (UInt32)signalInfo.Context;
-
-            //statusBar.Text = "Processing";
+            UInt32 currentChannel = (UInt32) signalInfo.Context;
             currentSurface = signalInfo.SignalInfo;
-
-            // + PicoloVideo Sample Program
 
             try
             {
@@ -1578,9 +1589,9 @@ namespace PicoloVideo
                 try
                 {
                     FiltersSequence filter = new FiltersSequence(
-                    new BrightnessCorrection(BrightnessValue),
-                    new ContrastCorrection(contrastValue),
-                    new SaturationCorrection(saturationValue)
+                        new BrightnessCorrection(BrightnessValue),
+                        new ContrastCorrection(contrastValue),
+                        new SaturationCorrection(saturationValue)
                     );
                     // apply the filter                  
 
@@ -1588,9 +1599,9 @@ namespace PicoloVideo
 
                     globalHeightOfImage = height;
                     globalWidthOfImage = width;
-                    tempAcquiredBitmap = new Bitmap(width, height, bufferPitch, PixelFormat.Format24bppRgb, bufferAddress);
+                    tempAcquiredBitmap = new Bitmap(width, height, bufferPitch, PixelFormat.Format24bppRgb,
+                        bufferAddress);
                     acquiredBitmap = filter.Apply(tempAcquiredBitmap);
-
                 }
                 finally
                 {
@@ -1606,7 +1617,7 @@ namespace PicoloVideo
                 MC.GetParam(channel, "ChannelState", out channelState);
 
                 // Display the new image
-                this.BeginInvoke(new PaintDelegate(Redraw), new object[1] { CreateGraphics() });
+                this.BeginInvoke(new PaintDelegate(Redraw), new object[1] {CreateGraphics()});
             }
             catch (Euresys.MultiCamException exc)
             {
@@ -1620,7 +1631,7 @@ namespace PicoloVideo
 
         private void AcqFailureCallback(MC.SIGNALINFO signalInfo)
         {
-            UInt32 currentChannel = (UInt32)signalInfo.Context;
+            UInt32 currentChannel = (UInt32) signalInfo.Context;
 
             // + PicoloVideo Sample Program
 
@@ -1628,7 +1639,7 @@ namespace PicoloVideo
             {
                 // Display frame rate and channel state
                 //statusBar.Text = String.Format("Acquisition Failure, Channel State: IDLE");
-                this.BeginInvoke(new PaintDelegate(Redraw), new object[1] { CreateGraphics() });
+                this.BeginInvoke(new PaintDelegate(Redraw), new object[1] {CreateGraphics()});
             }
             catch (System.Exception exc)
             {
@@ -1648,8 +1659,8 @@ namespace PicoloVideo
                 if (acquiredBitmap != null && triggerHardwerowyOn && triggerFirstClick)
                     imgBoxesList[actualImgNumber].Image = new Bitmap(acquiredBitmap);
 
-                if (acquiredBitmap != null && ekranGlownyOn)
-                    mainScreen.Image = acquiredBitmap; // wyswietla video na glownym ekranie
+                if (acquiredBitmap != null && mainScreenOn)
+                    mainScreen.Image = acquiredBitmap;
             }
             catch (System.Exception exc)
             {
@@ -1711,10 +1722,12 @@ namespace PicoloVideo
                     MC.SetParam(channel, "ChannelState", "ACTIVE");
                 Refresh();
                 channelActive = true;
-                ekranGlownyOn = true;
+                mainScreenOn = true;
                 triggerHardwerowyOn = true;
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void MainForm_Closed(object sender, System.EventArgs e)
@@ -1750,9 +1763,8 @@ namespace PicoloVideo
                     MC.SetParam(channel, "ChannelState", "ACTIVE");
                 Refresh();
                 channelActive = true;
-                ekranGlownyOn = true;
+                mainScreenOn = true;
                 triggerHardwerowyOn = true;
-
             }
             catch (System.NullReferenceException exc)
             {
@@ -1805,7 +1817,7 @@ namespace PicoloVideo
             {
                 imgBoxesList[actualImgNumber].Image = new Bitmap(acquiredBitmap);
                 actualImgNumber++;
-                if (actualImgNumber > imgBoxesList.Length-1) actualImgNumber = 0;
+                if (actualImgNumber > imgBoxesList.Length - 1) actualImgNumber = 0;
             }
             catch
             {
@@ -1823,7 +1835,7 @@ namespace PicoloVideo
         {
             triggerHardwerowyOn = false;
             KanalVideo();
-            ekranGlownyOn = true;
+            mainScreenOn = true;
         }
 
         // VIDEO OFF
@@ -1835,7 +1847,7 @@ namespace PicoloVideo
         private void videoStop()
         {
             triggerHardwerowyOn = false;
-            ekranGlownyOn = false;
+            mainScreenOn = false;
             mainScreen.Image = null;
         }
 
@@ -1843,7 +1855,7 @@ namespace PicoloVideo
         private void image_Click(object sender, MouseEventArgs e)
         {
             triggerHardwerowyOn = false;
-            PictureBox clickedImg = (PictureBox)sender;
+            PictureBox clickedImg = (PictureBox) sender;
 
             switch (MouseButtons)
             {
@@ -1887,18 +1899,19 @@ namespace PicoloVideo
                         buttonDrukowanie.Enabled = true;
                         selectedImgNumbersTextBox.ForeColor = System.Drawing.Color.Black;
                     }
+
                     break;
 
 
                 case MouseButtons.Right:
                     mainScreen.Image = clickedImg.Image;
                     //NewBitmap = new Bitmap(pic.Image);
-                    NewBitmap = (Bitmap)clickedImg.Image;
+                    NewBitmap = (Bitmap) clickedImg.Image;
                     Img_zapis = NewBitmap;
                     TrackbarJasnosc.Enabled = true;
                     TrackbarKontrast.Enabled = true;
                     TrackbarNasycenie.Enabled = true;
-                    ekranGlownyOn = false;
+                    mainScreenOn = false;
                     break;
             }
         }
@@ -1910,7 +1923,8 @@ namespace PicoloVideo
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
             int fileSuffixNumber = 0;
-            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
+            String sciezkaZapisuJpeg =
+                (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
 
             if (mainScreen.Image != null)
             {
@@ -1923,8 +1937,10 @@ namespace PicoloVideo
                     while (File.Exists(sciezkaZapisuJpeg))
                     {
                         fileSuffixNumber++;
-                        sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
+                        sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text +
+                                             fileSuffixNumber + ".jpg");
                     }
+
                     mainScreen.Image.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
                 }
             }
@@ -1937,7 +1953,8 @@ namespace PicoloVideo
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
             int fileSuffixNumber = 0;
-            String sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber.ToString() + ".bmp");
+            String sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text +
+                                       fileSuffixNumber + ".bmp");
 
             if (mainScreen.Image != null)
             {
@@ -1950,12 +1967,14 @@ namespace PicoloVideo
                     while (File.Exists(sciezkaZapisuBmp))
                     {
                         fileSuffixNumber++;
-                        sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber.ToString() + ".bmp");
+                        sciezkaZapisuBmp = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text +
+                                            fileSuffixNumber + ".bmp");
                     }
+
                     mainScreen.Image.Save(sciezkaZapisuBmp, ImageFormat.Bmp);
                 }
             }
-            }
+        }
 
         // DRUKOWANIE
         private void buttonDrukowanie_Click(object sender, EventArgs e)
@@ -1991,7 +2010,9 @@ namespace PicoloVideo
                 if (imagesToPrint[8] != null)
                     printingForm.pic33.Image = imagesToPrint[8];
             }
-            catch { }
+            catch
+            {
+            }
         }
 
 
@@ -2006,7 +2027,7 @@ namespace PicoloVideo
         // TRACKBARY
         private void trackBar_Scroll(object sender, EventArgs e)
         {
-            saturationValue = (float)TrackbarNasycenie.Value / 100;
+            saturationValue = (float) TrackbarNasycenie.Value / 100;
             textBoxNasycenieNumber.Text = TrackbarNasycenie.Value.ToString();
 
             contrastValue = TrackbarKontrast.Value;
@@ -2040,7 +2061,7 @@ namespace PicoloVideo
         }
 
         private void KanalVideo()
-        { 
+        {
             triggerHardwerowyOn = false;
             string tryb;
 
@@ -2076,11 +2097,11 @@ namespace PicoloVideo
                 channelActive = false;
 
                 MC.SetParam(channel, "ChannelState", "ACTIVE"); // 
-                Refresh();                                      //       AUT OSTART PRZY URUCHOMIENIU
-                channelActive = true;                           //
+                Refresh(); //       AUT OSTART PRZY URUCHOMIENIU
+                channelActive = true; //
 
                 Refresh();
-            } 
+            }
         }
 
         private void KanalTrigger()
@@ -2092,7 +2113,6 @@ namespace PicoloVideo
 
             if (tryb != "COMBINED")
             {
-
                 MC.SetParam(channel, "ChannelState", "IDLE");
                 channelActive = false;
                 MC.Delete(channel);
@@ -2148,50 +2168,29 @@ namespace PicoloVideo
 
             int fileSuffixNumber = 0;
             string aviPath = textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + ".avi";
-
-            if (!File.Exists(aviPath))
+            while (File.Exists(aviPath))
             {
-                disableButtons();
-
-                ekranGlownyOn = false;
-                triggerHardwerowyOn = false;
-                KanalVideo();
-                int width = globalWidthOfImage;
-                int height = globalHeightOfImage;
-
-                try
-                {
-                    writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
-                }
-                catch { }
-
-                timerNagrywanie.Start();
-                buttonNagrywaj.BackColor = Color.Green;
+                fileSuffixNumber++;
+                aviPath = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + fileSuffixNumber + ".avi");
             }
-            else
+
+            //disableButtons();
+            mainScreenOn = false;
+            triggerHardwerowyOn = false;
+            KanalVideo();
+            int width = globalWidthOfImage;
+            int height = globalHeightOfImage;
+
+            try
             {
-                while (File.Exists(aviPath))
-                {
-                    fileSuffixNumber++;
-                    aviPath = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuAvi.Text + fileSuffixNumber + ".avi");
-                }
-                disableButtons();
-                ekranGlownyOn = false;
-                triggerHardwerowyOn = false;
-                KanalVideo();
-                int width = globalWidthOfImage;
-                int height = globalHeightOfImage;
+                writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
+            }
+            catch
+            {
+            }
 
-                try
-                {
-                    writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
-                }
-                catch { }
-
-                timerNagrywanie.Start();
-                buttonNagrywaj.BackColor = Color.Green;
-
-            }          
+            timerNagrywanie.Start();
+            buttonNagrywaj.BackColor = Color.Green;
         }
 
         private void disableButtons()
@@ -2219,25 +2218,25 @@ namespace PicoloVideo
         }
 
         private void timerNagrywanie_Tick(object sender, EventArgs e)
-        {                       
-            
+        {
             try
             {
-                writer.WriteVideoFrame(acquiredBitmap);                
+                writer.WriteVideoFrame(acquiredBitmap);
             }
             catch
-            { }
+            {
+            }
         }
 
         private void buttonStopNagrywanie_Click(object sender, EventArgs e)
         {
             timerNagrywanie.Stop();
-            writer.Close();            
+            writer.Close();
             enableButtons();
             buttonNagrywaj.BackColor = Color.White;
             videoStop();
-        }              
-                
+        }
+
 
         private void makeAvi(List<Bitmap> maps)
         {
@@ -2260,7 +2259,6 @@ namespace PicoloVideo
             MessageBox.Show("AddOk");
         }
 
-       
 
         private void makeAviStop()
         {
@@ -2271,21 +2269,20 @@ namespace PicoloVideo
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
             int fileSuffixNumber = 0;
-            String sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
+            String sciezkaZapisuJpeg =
+                (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
 
             foreach (Image tempImage in listaZdjeciaVideo)
             {
                 while (File.Exists(sciezkaZapisuJpeg))
                 {
                     fileSuffixNumber++;
-                    sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber + ".jpg");
+                    sciezkaZapisuJpeg = (textBoxSciezkaZapisu.Text + textBoxNazwaPlikuJpgBmp.Text + fileSuffixNumber +
+                                         ".jpg");
                 }
+
                 tempImage.Save(sciezkaZapisuJpeg, ImageFormat.Jpeg);
-
             }
-
         }
     }
-
-
 }
