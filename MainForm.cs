@@ -1780,17 +1780,19 @@ namespace PicoloVideo
                 MessageBox.Show("Problem nr. e3 \n \n" + exc.Message);
             }
 
-            for (int i = 0; i < 3; i++)
+
+            try
             {
-                try
+                for (int i = 0; i < 3; i++)
                 {
                     mainScreen.Image = new Bitmap(acquiredBitmap);
                 }
-                catch (System.NullReferenceException exc)
-                {
-                    MessageBox.Show("Problem nr. e4 \n \n" + exc.Message);
-                }
             }
+            catch (System.NullReferenceException exc)
+            {
+                MessageBox.Show("Proszê najpierw w³¹czyæ Olympus, nastêpnie uruchomiæ ponownie aplikacjê.");
+            }
+
         }
 
         // RESET ZDJEC 
