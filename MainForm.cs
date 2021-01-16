@@ -405,34 +405,34 @@ namespace PicoloVideo
             this.picture20 = new System.Windows.Forms.PictureBox();
             this.picture23 = new System.Windows.Forms.PictureBox();
             this.picture22 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize) (this.mainScreen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture17)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarJasnosc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarKontrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarNasycenie)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture19)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture21)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture20)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture23)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture22)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarJasnosc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture23)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture22)).BeginInit();
             this.SuspendLayout();
             // 
             // mainScreen
@@ -672,8 +672,7 @@ namespace PicoloVideo
             // 
             // buttonZlapKlatke
             // 
-            this.buttonZlapKlatke.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
-                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
+            this.buttonZlapKlatke.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonZlapKlatke.Location = new System.Drawing.Point(971, 8);
             this.buttonZlapKlatke.Name = "buttonZlapKlatke";
             this.buttonZlapKlatke.Size = new System.Drawing.Size(153, 52);
@@ -732,8 +731,7 @@ namespace PicoloVideo
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold,
-                System.Drawing.GraphicsUnit.Point, ((byte) (238)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(1034, 930);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 16);
@@ -742,8 +740,7 @@ namespace PicoloVideo
             // 
             // buttonZapiszJpg
             // 
-            this.buttonZapiszJpg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
-                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
+            this.buttonZapiszJpg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonZapiszJpg.Location = new System.Drawing.Point(971, 536);
             this.buttonZapiszJpg.Name = "buttonZapiszJpg";
             this.buttonZapiszJpg.Size = new System.Drawing.Size(153, 56);
@@ -787,8 +784,7 @@ namespace PicoloVideo
             // 
             // buttonDrukowanie
             // 
-            this.buttonDrukowanie.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F,
-                System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (238)));
+            this.buttonDrukowanie.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonDrukowanie.Location = new System.Drawing.Point(971, 872);
             this.buttonDrukowanie.Name = "buttonDrukowanie";
             this.buttonDrukowanie.Size = new System.Drawing.Size(153, 56);
@@ -1117,6 +1113,7 @@ namespace PicoloVideo
             this.buttonNagrywaj.TabIndex = 77;
             this.buttonNagrywaj.Text = "Nagrywanie";
             this.buttonNagrywaj.UseVisualStyleBackColor = true;
+            this.buttonNagrywaj.Visible = false;
             this.buttonNagrywaj.Click += new System.EventHandler(this.buttonNagrywaj_Click);
             // 
             // timerNagrywanie
@@ -1132,6 +1129,7 @@ namespace PicoloVideo
             this.buttonStopNagrywanie.TabIndex = 78;
             this.buttonStopNagrywanie.Text = "Zatrzymaj";
             this.buttonStopNagrywanie.UseVisualStyleBackColor = true;
+            this.buttonStopNagrywanie.Visible = false;
             this.buttonStopNagrywanie.Click += new System.EventHandler(this.buttonStopNagrywanie_Click);
             // 
             // label8
@@ -1142,6 +1140,7 @@ namespace PicoloVideo
             this.label8.Size = new System.Drawing.Size(86, 13);
             this.label8.TabIndex = 80;
             this.label8.Text = "nazwa pliku AVI:";
+            this.label8.Visible = false;
             // 
             // textBoxNazwaPlikuAvi
             // 
@@ -1149,6 +1148,7 @@ namespace PicoloVideo
             this.textBoxNazwaPlikuAvi.Name = "textBoxNazwaPlikuAvi";
             this.textBoxNazwaPlikuAvi.Size = new System.Drawing.Size(69, 20);
             this.textBoxNazwaPlikuAvi.TabIndex = 79;
+            this.textBoxNazwaPlikuAvi.Visible = false;
             // 
             // tbox23
             // 
@@ -1366,36 +1366,37 @@ namespace PicoloVideo
             this.Closed += new System.EventHandler(this.MainForm_Closed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
-            ((System.ComponentModel.ISupportInitialize) (this.mainScreen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture16)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarJasnosc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarKontrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.TrackbarNasycenie)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture19)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture21)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture20)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture23)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.picture22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainScreen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarJasnosc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarKontrast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackbarNasycenie)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture22)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -1657,7 +1658,10 @@ namespace PicoloVideo
                 imageMutex.WaitOne();
 
                 if (acquiredBitmap != null && triggerHardwerowyOn && triggerFirstClick)
+                {
                     imgBoxesList[actualImgNumber].Image = new Bitmap(acquiredBitmap);
+                    acquiredBitmap = null;
+                }
 
                 if (acquiredBitmap != null && mainScreenOn)
                     mainScreen.Image = acquiredBitmap;
@@ -1748,6 +1752,11 @@ namespace PicoloVideo
         // ZLAP KLATKE
         private void buttonZlapKlatke_Click(object sender, EventArgs e)
         {
+            enableHardwereAqusition();
+        }
+
+        private void enableHardwereAqusition()
+        {
             try
             {
                 KanalVideo();
@@ -1771,17 +1780,19 @@ namespace PicoloVideo
                 MessageBox.Show("Problem nr. e3 \n \n" + exc.Message);
             }
 
-            for (int i = 0; i < 3; i++)
+
+            try
             {
-                try
+                for (int i = 0; i < 3; i++)
                 {
                     mainScreen.Image = new Bitmap(acquiredBitmap);
                 }
-                catch (System.NullReferenceException exc)
-                {
-                    MessageBox.Show("Problem nr. e4 \n \n" + exc.Message);
-                }
             }
+            catch (System.NullReferenceException exc)
+            {
+                MessageBox.Show("Proszê najpierw w³¹czyæ Olympus, nastêpnie uruchomiæ ponownie aplikacjê.");
+            }
+
         }
 
         // RESET ZDJEC 
@@ -1833,7 +1844,7 @@ namespace PicoloVideo
 
         private void videoStart()
         {
-            triggerHardwerowyOn = false;
+            //triggerHardwerowyOn = false;
             KanalVideo();
             mainScreenOn = true;
         }
@@ -1846,7 +1857,7 @@ namespace PicoloVideo
 
         private void videoStop()
         {
-            triggerHardwerowyOn = false;
+            //triggerHardwerowyOn = false;
             mainScreenOn = false;
             mainScreen.Image = null;
         }
@@ -2162,7 +2173,8 @@ namespace PicoloVideo
 
         private void buttonNagrywaj_Click(object sender, EventArgs e)
         {
-            videoStart();
+            //videoStart();
+            
             if (!Directory.Exists(textBoxSciezkaZapisu.Text))
                 Directory.CreateDirectory(textBoxSciezkaZapisu.Text);
 
@@ -2175,15 +2187,15 @@ namespace PicoloVideo
             }
 
             //disableButtons();
-            mainScreenOn = false;
-            triggerHardwerowyOn = false;
-            KanalVideo();
+            mainScreenOn = true;
+            //triggerHardwerowyOn = true;
+            //KanalVideo();
             int width = globalWidthOfImage;
             int height = globalHeightOfImage;
 
             try
             {
-                writer.Open(aviPath, width, height, 25, VideoCodec.MPEG4, 1000000);
+                writer.Open(aviPath, width, height, 30, VideoCodec.MPEG4, 1000000);
             }
             catch
             {
@@ -2221,7 +2233,11 @@ namespace PicoloVideo
         {
             try
             {
-                writer.WriteVideoFrame(acquiredBitmap);
+                if (acquiredBitmap != null)
+                {
+                    writer.WriteVideoFrame(acquiredBitmap);
+                }
+                
             }
             catch
             {
@@ -2232,9 +2248,9 @@ namespace PicoloVideo
         {
             timerNagrywanie.Stop();
             writer.Close();
-            enableButtons();
+            //enableButtons();
             buttonNagrywaj.BackColor = Color.White;
-            videoStop();
+            //videoStop();
         }
 
 
